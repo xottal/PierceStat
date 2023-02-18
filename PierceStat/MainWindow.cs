@@ -21,7 +21,7 @@ namespace PierceStat
             form_Settings = new Form_Settings();
 
             pierceStat = new PierceStat_Class();
-            pierceStat._comPort.RsMessage += new ErrorHandler(AddMessage);
+            //pierceStat._comPort.RsMessage += new ErrorHandler(AddMessage);
 
 
             numericUpDown_U_HeaterMeas.Controls[0].Enabled = false;
@@ -65,43 +65,50 @@ namespace PierceStat
 
         public void PullParamaters()
         {
-            string command = pierceStat.U_HeaterSet.CommandGet() +
-                pierceStat.U_HeaterMeas.CommandGet() +
-                pierceStat.U_HeaterMaxAlarm.CommandGet() +
-                pierceStat.U_HeaterMinAlarm.CommandGet() +
-                pierceStat.U_HeaterOn.CommandGet() +
-                pierceStat.U_PowerMeas.CommandGet() +
-                pierceStat.U_PowerMaxAlarm.CommandGet() +
-                pierceStat.U_PowerMinAlarm.CommandGet() +
-                pierceStat.TempMeas[0].CommandGet() +
-                pierceStat.TempMeas[1].CommandGet() +
-                pierceStat.TempMeas[2].CommandGet() +
-                pierceStat.TempMeas[3].CommandGet() +
-                pierceStat.TempMinAlarm[0].CommandGet() +
-                pierceStat.TempMinAlarm[1].CommandGet() +
-                pierceStat.TempMinAlarm[2].CommandGet() +
-                pierceStat.TempMinAlarm[3].CommandGet() +
-                pierceStat.TempMaxAlarm[0].CommandGet() +
-                pierceStat.TempMaxAlarm[1].CommandGet() +
-                pierceStat.TempMaxAlarm[2].CommandGet() +
-                pierceStat.TempMaxAlarm[3].CommandGet() +
-                pierceStat.IMeas[0].CommandGet() +
-                pierceStat.IMeas[1].CommandGet() +
-                pierceStat.IMeas[2].CommandGet() +
-                pierceStat.IMeas[3].CommandGet() +
-                pierceStat.IMaxAlarm[0].CommandGet() +
-                pierceStat.IMaxAlarm[1].CommandGet() +
-                pierceStat.IMaxAlarm[2].CommandGet() +
-                pierceStat.IMaxAlarm[3].CommandGet() +
-                pierceStat.Load[0].CommandGet() +
-                pierceStat.Load[1].CommandGet() +
-                pierceStat.Mode[0].CommandGet() +
-                pierceStat.Mode[1].CommandGet() + 
-                pierceStat.ChannelOn[0].CommandGet() +
-                pierceStat.ChannelOn[1].CommandGet() + 
-                pierceStat.Source[0].CommandGet() +
-                pierceStat.Source[1].CommandGet();
-            pierceStat._comPort.WriteRs(command);
+            List<IParameter> parametersToPull = new List<IParameter> { 
+                pierceStat.U_HeaterSet,
+                pierceStat.U_HeaterMeas,
+                pierceStat.U_HeaterMaxAlarm,
+                pierceStat.U_HeaterMinAlarm,
+                pierceStat.U_HeaterOn,
+                pierceStat.U_PowerMeas,
+                pierceStat.U_PowerMaxAlarm,
+                pierceStat.U_PowerMinAlarm,
+                pierceStat.TempMeas[0],
+                pierceStat.TempMeas[1],
+                pierceStat.TempMeas[2],
+                pierceStat.TempMeas[3],
+                pierceStat.TempMinAlarm[0],
+                pierceStat.TempMinAlarm[1],
+                pierceStat.TempMinAlarm[2],
+                pierceStat.TempMinAlarm[3],
+                pierceStat.TempMaxAlarm[0],
+                pierceStat.TempMaxAlarm[1],
+                pierceStat.TempMaxAlarm[2],
+                pierceStat.TempMaxAlarm[3],
+                pierceStat.IMeas[0],
+                pierceStat.IMeas[1],
+                pierceStat.IMeas[2],
+                pierceStat.IMeas[3],
+                pierceStat.IMaxAlarm[0],
+                pierceStat.IMaxAlarm[1],
+                pierceStat.IMaxAlarm[2],
+                pierceStat.IMaxAlarm[3],
+                pierceStat.Load[0],
+                pierceStat.Load[1],
+                pierceStat.Mode[0],
+                pierceStat.Mode[1],
+                pierceStat.ChannelOn[0],
+                pierceStat.ChannelOn[1],
+                pierceStat.Source[0],
+                pierceStat.Source[1] };
+            StringBuilder command = new StringBuilder();
+            foreach(var param in parametersToPull) 
+            { 
+                command.Append(param.CommandGet); 
+            }
+            pierceStat.WriteRs(command.ToString());
+            command.Clear();
 
             decimal tempD = pierceStat.U_HeaterSet.ReadFromCOM();
             if (!numericUpDown_U_HeaterSet.Focused)
@@ -309,28 +316,34 @@ namespace PierceStat
                     comboBox.SelectedIndex = tempI;
             }
 
-            command = pierceStat.PIDTemp[0][0].CommandGet() +
-                pierceStat.PIDTemp[0][1].CommandGet() +
-                pierceStat.PIDTemp[0][2].CommandGet() +
-                pierceStat.PIDTemp[1][0].CommandGet() +
-                pierceStat.PIDTemp[1][1].CommandGet() +
-                pierceStat.PIDTemp[1][2].CommandGet() +
-                pierceStat.PIDFreq[0][0].CommandGet() +
-                pierceStat.PIDFreq[0][1].CommandGet() +
-                pierceStat.PIDFreq[0][2].CommandGet() +
-                pierceStat.PIDFreq[1][0].CommandGet() +
-                pierceStat.PIDFreq[1][1].CommandGet() +
-                pierceStat.PIDFreq[1][2].CommandGet() +
-                pierceStat.TempSet[0].CommandGet() +
-                pierceStat.TempSet[1].CommandGet() +
-                pierceStat.CurrentSet[0].CommandGet() +
-                pierceStat.CurrentSet[1].CommandGet() +
-                pierceStat.Polarity[0].CommandGet() +
-                pierceStat.Polarity[1].CommandGet() +
-                pierceStat.FreqMeas.CommandGet() +
-                pierceStat.FreqSet.CommandGet()
-                ;
-            pierceStat._comPort.WriteRs(command);
+            List<IParameter> l = new List<IParameter> {
+                pierceStat.PIDTemp[0][0],
+                pierceStat.PIDTemp[0][1],
+                pierceStat.PIDTemp[0][2],
+                pierceStat.PIDTemp[1][0],
+                pierceStat.PIDTemp[1][1],
+                pierceStat.PIDTemp[1][2],
+                pierceStat.PIDFreq[0][0],
+                pierceStat.PIDFreq[0][1],
+                pierceStat.PIDFreq[0][2],
+                pierceStat.PIDFreq[1][0],
+                pierceStat.PIDFreq[1][1],
+                pierceStat.PIDFreq[1][2],
+                pierceStat.TempSet[0],
+                pierceStat.TempSet[1],
+                pierceStat.CurrentSet[0],
+                pierceStat.CurrentSet[1],
+                pierceStat.Polarity[0],
+                pierceStat.Polarity[1],
+                pierceStat.FreqMeas,
+                pierceStat.FreqSet };
+            
+            foreach(var param in l)
+            {
+                command.Append(param.CommandGet);
+            }
+            pierceStat.WriteRs(command.ToString());
+            command.Clear();
 
             for (int i = 0; i < 2; i++)
             {

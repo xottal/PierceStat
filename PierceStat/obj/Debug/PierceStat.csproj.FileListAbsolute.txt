@@ -22,3 +22,15 @@ C:\Users\mnk\Documents\Visual Studio Projects\PierceStat\PierceStat\obj\Debug\Pi
 C:\Users\mnk\Documents\Visual Studio Projects\PierceStat\PierceStat\obj\Debug\PierceStat.pdb
 C:\Users\xottal\YandexDisk\Visual Studio Projects\PierceStat\PierceStat\obj\Debug\PierceStat.Form_MainWindow.resources
 C:\Users\xottal\YandexDisk\Visual Studio Projects\PierceStat\PierceStat\obj\Debug\PierceStat.Form_Settings.resources
+F:\source\repos\PeirceStat\PierceStat\bin\Debug\PierceStat.exe.config
+F:\source\repos\PeirceStat\PierceStat\bin\Debug\PierceStat.exe
+F:\source\repos\PeirceStat\PierceStat\bin\Debug\PierceStat.pdb
+F:\source\repos\PeirceStat\PierceStat\obj\Debug\PierceStat.csproj.AssemblyReference.cache
+F:\source\repos\PeirceStat\PierceStat\obj\Debug\PierceStat.csproj.SuggestedBindingRedirects.cache
+F:\source\repos\PeirceStat\PierceStat\obj\Debug\PierceStat.Form_MainWindow.resources
+F:\source\repos\PeirceStat\PierceStat\obj\Debug\PierceStat.Properties.Resources.resources
+F:\source\repos\PeirceStat\PierceStat\obj\Debug\PierceStat.Form_Settings.resources
+F:\source\repos\PeirceStat\PierceStat\obj\Debug\PierceStat.csproj.GenerateResource.cache
+F:\source\repos\PeirceStat\PierceStat\obj\Debug\PierceStat.csproj.CoreCompileInputs.cache
+F:\source\repos\PeirceStat\PierceStat\obj\Debug\PierceStat.exe
+F:\source\repos\PeirceStat\PierceStat\obj\Debug\PierceStat.pdb

@@ -19,7 +19,7 @@ namespace PierceStat
         public PierceStat_Class()
         {
             _comPort = new RsExchange();
-            InitParams();       
+            _initParams();       
 
         }
 
@@ -33,7 +33,17 @@ namespace PierceStat
             return _comPort.DisRs();
         }
 
-        public RsExchange _comPort;
+        public bool WriteRs(string command)
+        {
+            return _comPort.WriteRs(command);
+        }
+
+        public string ReadRs()
+        {
+            return _comPort.ReadRs();
+        }
+
+        private RsExchange _comPort;
 
         private static readonly string _getID = "*IDN?";
         private static readonly string _IDanswer = "PierceStat";
@@ -74,7 +84,7 @@ namespace PierceStat
         public ParameterDecimal FreqMeas;
         public ParameterDecimal FreqSet;
 
-        void InitParams()
+        private void _initParams()
         {
             //Heater Voltage
             U_HeaterSet =       new ParameterDecimal(this,  "Heater Set Voltage",               150,    12.0m,      false);
@@ -234,90 +244,102 @@ namespace PierceStat
 
         }
     }
-    public abstract class AbstractParameter
+    
+    public interface ICommand
     {
-        public AbstractParameter(PierceStat_Class instance, string description, int number)
-        {
-            this._description = description;
-            this._number = number;
-            this._instance = instance;
-        }
+        int Number { get; }
+        string Description { get; }
+    }
+    
+    public interface IParameter : ICommand
+    {
+        bool ReadOnly { get; }
+        string CommandGet { get; }
+        string CommandSet { get; }
+        bool SetFromString(string value);
+        string GetInString();
+    }
+    
+    //Why IComparable?
+    public interface IParameter<T> : IParameter where T : IComparable
+    {
+        T Value { get; set; }
+        T ReadFromCOM();
+        T GetFromCOM();
 
-        public int Number { get { return _number; } }
-        public string Description { get { return _description; } }
-
-        protected readonly PierceStat_Class _instance;
-
-        private readonly int _number;
-        private readonly string _description;
     }
 
-    public class Command : AbstractParameter
+    public class Command : ICommand
     {
-        public Command(PierceStat_Class instance, string description, int number) : base(instance, description, number)
+
+        private PierceStat_Class _instance;
+        public int Number { get; }
+        public string Description { get; }
+
+        public string CommandString { get; }
+
+        public Command(PierceStat_Class instance, string description, int number)
         {
+            this._instance = instance;
+            this.Number = number;
+            this.Description = description;
+            this.CommandString = $"${this.Number}?";
         }
 
         public void DoCommand()
         {
-            _instance._comPort.WriteRs("$" + Number.ToString() + "?");
-            string reply = _instance._comPort.ReadRs();
+            _instance.WriteRs(this.CommandString);
+            string reply = _instance.ReadRs();
             Console.WriteLine(reply);
         }
     }
 
-    public abstract class Parameter<T> : AbstractParameter where T : IComparable
+
+    public abstract class Parameter<T> : IParameter<T> where T : IComparable
     {
-        public Parameter(PierceStat_Class instance, string description, int number, T value, bool readOnly = false) : base(instance, description, number)
+        private PierceStat_Class _instance;
+        public int Number { get; }
+        public string Description { get; }
+        public string CommandGet { get; }
+        public string CommandSet { get; }
+        public bool ReadOnly { get; }
+
+        protected T _value;
+        
+        public Parameter(PierceStat_Class instance, string description, int number, T value, bool readOnly = false)
         {
+            this._instance = instance;
+            this.Description = description;
+            this.Number = number;
             this._value = value;
-            this._readOnly = readOnly;
+            this.ReadOnly = readOnly;
+            this.CommandGet = $"${this.Number}?";
+            this.CommandSet = $"${this.Number}:";
         }
 
         public T Value
         {
-            get
-            {
-                _instance._comPort.WriteRs("$" + Number.ToString() + "?");
-                return ReadFromCOM();
-            }
+            get => _value;
+
             set
             {
                 _value = value;
-                _instance._comPort.WriteRs("$" + Number.ToString() + ":" + GetInString());
-                string reply = _instance._comPort.ReadRs();
+                _instance.WriteRs(CommandSet + GetInString());
+                string reply = _instance.ReadRs();
                 //Console.WriteLine(reply);
                 
             }
         }
 
-        public T ValueStored
-        {
-            get => _value;
-            set => _value = value;
-        }
-
-        public bool ReadOnly => _readOnly;
-
-        public string CommandGet()
-        {
-            return "$" + Number.ToString() + "?;";
-        }
-
-        public string CommandSet(T value)
-        {
-            return "$" + Number.ToString() + ":" + value.ToString();
-        }
-
         public T ReadFromCOM()
         {
-            string reply = _instance._comPort.ReadRs();
+            string reply = _instance.ReadRs();
             if (reply.Length > 5)
                 reply = reply.Substring(5);
             else
             {
                 reply = null;
-                Console.WriteLine("Too short reply");
+                Console.WriteLine("Reply is too short");
                 return _value;
             }
                 
@@ -328,6 +350,12 @@ namespace PierceStat
             return _value;
         }
 
+        public T GetFromCOM()
+        {
+            _instance.WriteRs(CommandGet);
+            return ReadFromCOM();
+        }
+
         public abstract bool SetFromString(string str);
 
         public string GetInString()
@@ -335,8 +363,6 @@ namespace PierceStat
             return _value.ToString();
         }
 
-        protected T _value;
-        private readonly bool _readOnly;
     }
 
     public class ParameterDecimal : Parameter<decimal>
