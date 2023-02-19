@@ -10,13 +10,13 @@ namespace PierceStat
 {
     public class RsExchange
     {
-        public delegate void MessageHandler(object source, MyMessageArgs e);
-         private System.IO.Ports.SerialPort _rs_port;
+        public delegate void MessageHandler(object source, MessageArgs e);
+        private System.IO.Ports.SerialPort _rs_port;
         private PierceStat_Class.MessageHandler _messageHandler;
         private readonly int _readTimeout = 200; //ms
         private readonly int _writeTimeout = 200; //ms
         private readonly string _symbolEOL = "\n";
-        private readonly int _baudRate = 115200;
+        private readonly int _baudRate = 1024000;
 
         public RsExchange(int readTimeout, int writeTimeout, string symbolEOL, int baudRate, PierceStat_Class.MessageHandler messageHandler)
         {
@@ -48,7 +48,7 @@ namespace PierceStat
             }
             catch (System.Exception exc)
             {
-                _messageHandler(this, new MyMessageArgs($"WriteRs(): {exc.Source}", exc.Message));
+                _messageHandler(this, new MessageArgs($"WriteRs(): {exc.Source}", exc.Message));
                 return false;
             }
             return true;
@@ -63,7 +63,7 @@ namespace PierceStat
             }
             catch (System.Exception exc)
             {
-                _messageHandler(this, new MyMessageArgs($"ReadRs(): {exc.Source}", exc.Message));
+                _messageHandler(this, new MessageArgs($"ReadRs(): {exc.Source}", exc.Message));
                 return "";
             }
             return data;
@@ -77,7 +77,9 @@ namespace PierceStat
                 {
                     ReadTimeout = _readTimeout,
                     WriteTimeout = _writeTimeout,
-                    NewLine = _symbolEOL
+                    NewLine = _symbolEOL,
+                    ReadBufferSize = 16384,
+                    WriteBufferSize= 16384
                 };
                 _rs_port.Open();
                 _rs_port.DiscardInBuffer();
@@ -85,7 +87,7 @@ namespace PierceStat
             }
             catch (System.Exception exc)
             {
-                _messageHandler(this, new MyMessageArgs($"InitRs(): {exc.Source}", exc.Message));
+                _messageHandler(this, new MessageArgs($"InitRs(): {exc.Source}", exc.Message));
                 _rs_port = null;
                 return false;
             }
@@ -94,13 +96,13 @@ namespace PierceStat
             if (!answer.Contains(keyAnswer))
             {
                 DisRs();
-                _messageHandler(this, new MyMessageArgs($"InitRs()", "Проверьте правильность подключения устройства"));
+                _messageHandler(this, new MessageArgs($"InitRs()", "Проверьте правильность подключения устройства"));
                 _rs_port = null;
                 return false;
             }
             else
             {
-                _messageHandler(this, new MyMessageArgs($"Connection", "Successfully connected to: " + answer));
+                _messageHandler(this, new MessageArgs($"Connection", "Successfully connected to: " + answer));
                 return true;
             }
 
@@ -113,10 +115,10 @@ namespace PierceStat
             }
             catch (System.Exception exc)
             {
-                _messageHandler(this, new MyMessageArgs($"DisRs: {exc.Source}", exc.Message));
+                _messageHandler(this, new MessageArgs($"DisRs: {exc.Source}", exc.Message));
                 return false;
             }
-            _messageHandler(this, new MyMessageArgs($"Disconnection", "Successfully disconnected"));
+            _messageHandler(this, new MessageArgs($"Disconnection", "Successfully disconnected"));
             return true;
         }
     }

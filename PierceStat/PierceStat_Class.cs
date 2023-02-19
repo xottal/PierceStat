@@ -21,8 +21,7 @@ namespace PierceStat
         {
             _comPort = new RsExchange(messageHandler);
             _messageHandler = messageHandler;
-            _initParams();       
-
+            _initParams();
         }
 
         public bool Connect(string port)
@@ -32,6 +31,7 @@ namespace PierceStat
 
         public bool Disconnect()
         {
+
             return _comPort.DisRs();
         }
 
@@ -45,9 +45,15 @@ namespace PierceStat
             return _comPort.ReadRs();
         }
 
+        public void AddMessage(object source, MessageArgs e)
+        {
+            _messageHandler(source, e);
+        }
+
+
         private RsExchange _comPort;
-        public delegate void MessageHandler(object source, MyMessageArgs e);
-        private event MessageHandler _messageHandler;
+        public delegate void MessageHandler(object source, MessageArgs e);
+        public event MessageHandler _messageHandler;
 
         private static readonly string _getID = "*IDN?";
         private static readonly string _IDanswer = "PierceStat";
@@ -88,8 +94,12 @@ namespace PierceStat
         public ParameterDecimal FreqMeas;
         public ParameterDecimal FreqSet;
 
+        public Command SaveFlash;
+
         private void _initParams()
         {
+            SaveFlash = new Command(this, "Save Flash", 110);
+
             //Heater Voltage
             U_HeaterSet =       new ParameterDecimal(this,  "Heater Set Voltage",               150,    12.0m,      false);
             U_HeaterMeas =      new ParameterDecimal(this,  "Heater Measured Voltage",          202,    0.0m,       true);
@@ -307,6 +317,8 @@ namespace PierceStat
         public string CommandSet { get; }
         public bool ReadOnly { get; }
 
+        public delegate void MessageHandler(object source, MessageArgs e);
+
         protected T _value;
         
         public Parameter(PierceStat_Class instance, string description, int number, T value, bool readOnly = false)
@@ -329,8 +341,8 @@ namespace PierceStat
                 _value = value;
                 _instance.WriteRs(CommandSet + GetInString());
                 string reply = _instance.ReadRs();
-                //Console.WriteLine(reply);
-                
+                if (reply.Length < 5 || reply[5] == 'N')
+                    _instance.AddMessage(this, new MessageArgs($"Parameter Value Set()", $"{this.Number}: Incorrect value"));
             }
         }
 
@@ -341,14 +353,14 @@ namespace PierceStat
                 reply = reply.Substring(5);
             else
             {
+                _instance.AddMessage(this, new MessageArgs($"ReadFromCom()", $"Too short reply {this.Number}: " + reply));
                 reply = null;
-                Console.WriteLine("Reply is too short");
                 return _value;
             }
                 
             if (!SetFromString(reply))
             {
-                Console.WriteLine("Can't parse: " + reply);
+                _instance.AddMessage(this, new MessageArgs($"ReadFromCom()", $"Can't parse {this.Number}: " + reply));
             }
             return _value;
         }
@@ -363,7 +375,10 @@ namespace PierceStat
 
         public string GetInString()
         {
-            return _value.ToString();
+            string str = _value.ToString();
+            if (typeof(T) == typeof(bool))
+                str = (str == "False") ? "false" : "true";
+            return str;
         }
 
     }
@@ -423,7 +438,7 @@ namespace PierceStat
         }
 
     }
-    public class MyMessageArgs : EventArgs
+    public class MessageArgs : EventArgs
     {
         public string MessageTime
         {
@@ -447,7 +462,7 @@ namespace PierceStat
                 return _messageInfo;
             }
         }
-        public MyMessageArgs(string messageSource, string messageInfo)
+        public MessageArgs(string messageSource, string messageInfo)
         {
             _messageSource = messageSource;
             _messageInfo = messageInfo;
