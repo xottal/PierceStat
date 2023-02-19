@@ -260,7 +260,6 @@ namespace PierceStat
         string GetInString();
     }
     
-    //Why IComparable?
     public interface IParameter<T> : IParameter where T : IComparable
     {
         T Value { get; set; }
@@ -313,7 +312,7 @@ namespace PierceStat
             this.Number = number;
             this._value = value;
             this.ReadOnly = readOnly;
-            this.CommandGet = $"${this.Number}?";
+            this.CommandGet = $"${this.Number}?;";
             this.CommandSet = $"${this.Number}:";
         }
 
