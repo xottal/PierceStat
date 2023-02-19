@@ -20,8 +20,8 @@ namespace PierceStat
             updateCOMPortsToolStripMenuItem_Click(1, null);
             form_Settings = new Form_Settings();
 
-            pierceStat = new PierceStat_Class();
-            //pierceStat._comPort.RsMessage += new ErrorHandler(AddMessage);
+            PierceStat_Class.MessageHandler messageHandler = new PierceStat_Class.MessageHandler(AddMessage);
+            pierceStat = new PierceStat_Class(messageHandler);
 
 
             numericUpDown_U_HeaterMeas.Controls[0].Enabled = false;
@@ -50,9 +50,9 @@ namespace PierceStat
             richTextBox_Messages.AppendText(message + '\n');
             richTextBox_Messages.ScrollToCaret();
         }
-        public void AddMessage(object source, MyErrorArgs e)
+        public void AddMessage(object source, MyMessageArgs e)
         {
-            richTextBox_Messages.AppendText($"{e.ErrorSource}: {e.ErrorInfo}\n");
+            richTextBox_Messages.AppendText($"{e.MessageTime}: {e.MessageSource} \n {e.MessageInfo}\n");
             richTextBox_Messages.ScrollToCaret();
 
         }
@@ -780,19 +780,5 @@ namespace PierceStat
                 this.WindowState = FormWindowState.Normal;
             }
         }
-    }
-
-    public delegate void ErrorHandler(object source, MyErrorArgs e);
-    public class MyErrorArgs : EventArgs
-    {
-        public string ErrorSource { get; set; }
-        public string ErrorInfo { get; set; }
-        public MyErrorArgs(string errorSource, string errorInfo)
-        {
-            ErrorSource = errorSource;
-            ErrorInfo = errorInfo;
-        }
-    }
-
-    
+    }    
 }

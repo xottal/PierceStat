@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design.Serialization;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
@@ -16,9 +17,10 @@ namespace PierceStat
 {
     public class PierceStat_Class
     {
-        public PierceStat_Class()
+        public PierceStat_Class(MessageHandler messageHandler)
         {
-            _comPort = new RsExchange();
+            _comPort = new RsExchange(messageHandler);
+            _messageHandler = messageHandler;
             _initParams();       
 
         }
@@ -44,6 +46,8 @@ namespace PierceStat
         }
 
         private RsExchange _comPort;
+        public delegate void MessageHandler(object source, MyMessageArgs e);
+        private event MessageHandler _messageHandler;
 
         private static readonly string _getID = "*IDN?";
         private static readonly string _IDanswer = "PierceStat";
@@ -418,5 +422,40 @@ namespace PierceStat
             return false;
         }
 
+    }
+    public class MyMessageArgs : EventArgs
+    {
+        public string MessageTime
+        {
+            get
+            {
+                return _messageTime;
+            }
+        }
+        public string MessageSource
+        {
+            get
+            {
+                return _messageSource;
+            }
+
+        }
+        public string MessageInfo
+        {
+            get
+            {
+                return _messageInfo;
+            }
+        }
+        public MyMessageArgs(string messageSource, string messageInfo)
+        {
+            _messageSource = messageSource;
+            _messageInfo = messageInfo;
+            _messageTime = $"{DateTime.Now.ToString("hh:mm:ss")}";
+        }
+
+        private string _messageTime;
+        private string _messageSource;
+        private string _messageInfo;
     }
 }

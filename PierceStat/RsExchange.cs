@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,22 +10,45 @@ namespace PierceStat
 {
     public class RsExchange
     {
-        public event ErrorHandler RsMessage;
-        private System.IO.Ports.SerialPort rs_port;
-        private readonly int readTimeout = 200; //ms
-        private readonly int writeTimeout = 200; //ms
-        private readonly string symbolEOL = "\n";
-        private readonly int baudRate = 115200;
+        public delegate void MessageHandler(object source, MyMessageArgs e);
+         private System.IO.Ports.SerialPort _rs_port;
+        private PierceStat_Class.MessageHandler _messageHandler;
+        private readonly int _readTimeout = 200; //ms
+        private readonly int _writeTimeout = 200; //ms
+        private readonly string _symbolEOL = "\n";
+        private readonly int _baudRate = 115200;
+
+        public RsExchange(int readTimeout, int writeTimeout, string symbolEOL, int baudRate, PierceStat_Class.MessageHandler messageHandler)
+        {
+            this._readTimeout = readTimeout;
+            this._writeTimeout = writeTimeout;
+            this._symbolEOL = symbolEOL;
+            this._baudRate = baudRate;
+            this._messageHandler = messageHandler;
+        }
+
+        public RsExchange(int baudRate, PierceStat_Class.MessageHandler messageHandler)
+        {
+            this._baudRate = baudRate;
+            this._messageHandler = messageHandler;
+        }
+
+        public RsExchange(PierceStat_Class.MessageHandler messageHandler)
+        {
+            this._messageHandler = messageHandler;
+        }
+
+        //public void AddNewEventHandler 
 
         public bool WriteRs(string data)
         {
             try
             {
-                rs_port.WriteLine(data);
+                _rs_port.WriteLine(data);
             }
             catch (System.Exception exc)
             {
-                RsMessage?.Invoke(this, new MyErrorArgs($"{ DateTime.Now.ToString("hh:mm:ss") } Write Rs", exc.Message));
+                _messageHandler(this, new MyMessageArgs($"WriteRs(): {exc.Source}", exc.Message));
                 return false;
             }
             return true;
@@ -34,11 +59,11 @@ namespace PierceStat
             string data;
             try
             {
-                data = rs_port.ReadLine();
+                data = _rs_port.ReadLine();
             }
             catch (System.Exception exc)
             {
-                RsMessage?.Invoke(this, new MyErrorArgs($"{ DateTime.Now.ToString("hh:mm:ss") } Read Rs", exc.Message));
+                _messageHandler(this, new MyMessageArgs($"ReadRs(): {exc.Source}", exc.Message));
                 return "";
             }
             return data;
@@ -48,20 +73,20 @@ namespace PierceStat
         {
             try
             {
-                rs_port = new System.IO.Ports.SerialPort(port, baudRate, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One)
+                _rs_port = new System.IO.Ports.SerialPort(port, _baudRate, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One)
                 {
-                    ReadTimeout = readTimeout,
-                    WriteTimeout = writeTimeout,
-                    NewLine = symbolEOL
+                    ReadTimeout = _readTimeout,
+                    WriteTimeout = _writeTimeout,
+                    NewLine = _symbolEOL
                 };
-                rs_port.Open();
-                rs_port.DiscardInBuffer();
-                rs_port.DiscardOutBuffer();
+                _rs_port.Open();
+                _rs_port.DiscardInBuffer();
+                _rs_port.DiscardOutBuffer();
             }
             catch (System.Exception exc)
             {
-                RsMessage?.Invoke(this, new MyErrorArgs($"{ DateTime.Now.ToString("hh:mm:ss") } Connection", exc.Message));
-                rs_port = null;
+                _messageHandler(this, new MyMessageArgs($"InitRs(): {exc.Source}", exc.Message));
+                _rs_port = null;
                 return false;
             }
             WriteRs(key);
@@ -69,13 +94,13 @@ namespace PierceStat
             if (!answer.Contains(keyAnswer))
             {
                 DisRs();
-                RsMessage?.Invoke(this, new MyErrorArgs($"{DateTime.Now.ToString("hh:mm:ss")} Connection", "Проверьте правильность подключения устройства"));
-                rs_port = null;
+                _messageHandler(this, new MyMessageArgs($"InitRs()", "Проверьте правильность подключения устройства"));
+                _rs_port = null;
                 return false;
             }
             else
             {
-                RsMessage?.Invoke(this, new MyErrorArgs($"{DateTime.Now.ToString("hh:mm:ss")} Connection", "Successfully connected to: " + answer));
+                _messageHandler(this, new MyMessageArgs($"Connection", "Successfully connected to: " + answer));
                 return true;
             }
 
@@ -84,14 +109,14 @@ namespace PierceStat
         {
             try
             {
-                rs_port.Close();
+                _rs_port.Close();
             }
             catch (System.Exception exc)
             {
-                RsMessage?.Invoke(this, new MyErrorArgs($"{ DateTime.Now.ToString("hh:mm:ss") } Disconnection", exc.Message));
+                _messageHandler(this, new MyMessageArgs($"DisRs: {exc.Source}", exc.Message));
                 return false;
             }
-            RsMessage?.Invoke(this, new MyErrorArgs($"{DateTime.Now.ToString("hh:mm:ss")} Disconnection", "Successfully disconnected"));
+            _messageHandler(this, new MyMessageArgs($"Disconnection", "Successfully disconnected"));
             return true;
         }
     }
