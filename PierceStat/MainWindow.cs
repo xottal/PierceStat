@@ -6,12 +6,12 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace PierceStat
 {
@@ -22,7 +22,6 @@ namespace PierceStat
             InitializeComponent();
             updateCOMPortsToolStripMenuItem_Click(1, null);
             
-
             PierceStat_Class.MessageHandler messageHandler = new PierceStat_Class.MessageHandler(AddMessage);
             pierceStat = new PierceStat_Class(messageHandler);
             form_Settings = new Form_Settings(pierceStat);
@@ -36,16 +35,88 @@ namespace PierceStat
             frequency = new List<decimal>();
             derivative = new List<decimal>();
 
-            stopWatch = new System.Diagnostics.Stopwatch();
+            stopWatch = new System.Diagnostics.Stopwatch(); //Clock for plots
             stopWatch.Reset();
 
-            timer1.Start();
+            timer1.Start(); //Timer for UART messages (configuration in MainWindow Form)
 
             chart_Temps.ChartAreas[0].AxisX.Minimum = 0;
             chart_Freq.ChartAreas[0].AxisX.Minimum = 0;
 
             numericUpDown_U_HeaterMeas.Controls[0].Enabled = false;
             numericUpDown_U_PowerMeas.Controls[0].Enabled = false;
+            numericUpDown_CurrentCh1Meas.Controls[0].Enabled = false;
+            numericUpDown_CurrentCh2Meas.Controls[0].Enabled = false;
+            numericUpDown_FreqMeas.Controls[0].Enabled = false;
+            numericUpDown_FreqMeas2.Controls[0].Enabled = false;
+            numericUpDown_Temp1Meas.Controls[0].Enabled = false;
+            numericUpDown_Temp2Meas.Controls[0].Enabled = false;
+            numericUpDown_Temp3Meas.Controls[0].Enabled = false;
+            numericUpDown_Temp4Meas.Controls[0].Enabled = false;
+
+            ToolTip toolTip = new ToolTip();
+
+
+            toolTip.SetToolTip(numericUpDown_U_HeaterSet, pierceStat.U_HeaterSet.Description);
+            toolTip.SetToolTip(numericUpDown_U_HeaterMeas, pierceStat.U_HeaterMeas.Description);
+            toolTip.SetToolTip(numericUpDown_U_HeaterMax, pierceStat.U_HeaterMaxAlarm.Description);
+            toolTip.SetToolTip(numericUpDown_U_HeaterMin, pierceStat.U_HeaterMinAlarm.Description);
+            toolTip.SetToolTip(checkBox_U_HeaterEnable, pierceStat.U_HeaterOn.Description);
+            toolTip.SetToolTip(numericUpDown_U_PowerMeas, pierceStat.U_PowerMeas.Description);
+            toolTip.SetToolTip(numericUpDown_U_PowerMax, pierceStat.U_PowerMaxAlarm.Description);
+            toolTip.SetToolTip(numericUpDown_U_PowerMin, pierceStat.U_PowerMinAlarm.Description);
+
+            toolTip.SetToolTip(numericUpDown_Temp1Meas, pierceStat.TempMeas[0].Description);
+            toolTip.SetToolTip(numericUpDown_Temp2Meas, pierceStat.TempMeas[1].Description);
+            toolTip.SetToolTip(numericUpDown_Temp3Meas, pierceStat.TempMeas[2].Description);
+            toolTip.SetToolTip(numericUpDown_Temp4Meas, pierceStat.TempMeas[3].Description);
+            toolTip.SetToolTip(numericUpDown_Temp1Min, pierceStat.TempMinAlarm[0].Description);
+            toolTip.SetToolTip(numericUpDown_Temp2Min, pierceStat.TempMinAlarm[1].Description);
+            toolTip.SetToolTip(numericUpDown_Temp3Min, pierceStat.TempMinAlarm[2].Description);
+            toolTip.SetToolTip(numericUpDown_Temp4Min, pierceStat.TempMinAlarm[3].Description);
+            toolTip.SetToolTip(numericUpDown_Temp1Max, pierceStat.TempMaxAlarm[0].Description);
+            toolTip.SetToolTip(numericUpDown_Temp2Max, pierceStat.TempMaxAlarm[1].Description);
+            toolTip.SetToolTip(numericUpDown_Temp3Max, pierceStat.TempMaxAlarm[2].Description);
+            toolTip.SetToolTip(numericUpDown_Temp4Max, pierceStat.TempMaxAlarm[3].Description);
+
+            toolTip.SetToolTip(numericUpDown_CurrentCh1Meas, "Signed current of Channel 1");
+            toolTip.SetToolTip(numericUpDown_CurrentCh2Meas, "Signed current of Channel 2");
+            toolTip.SetToolTip(numericUpDown_CurrentCh1Max, "Max current of Channel 1 (abs)");
+            toolTip.SetToolTip(numericUpDown_CurrentCh2Max, "Max current of Channel 2 (abs)");
+
+            toolTip.SetToolTip(comboBox_Load1, pierceStat.Load[0].Description);
+            toolTip.SetToolTip(comboBox_Load2, pierceStat.Load[1].Description);
+            toolTip.SetToolTip(button_EnableCh1, pierceStat.ChannelOn[0].Description);
+            toolTip.SetToolTip(button_EnableCh2, pierceStat.ChannelOn[1].Description);
+            toolTip.SetToolTip(comboBox_Source1, pierceStat.Source[0].Description);
+            toolTip.SetToolTip(comboBox_Source2, pierceStat.Source[1].Description);
+
+            toolTip.SetToolTip(numericUpDown_PTemp1, pierceStat.PIDTemp[0][0].Description);
+            toolTip.SetToolTip(numericUpDown_ITemp1, pierceStat.PIDTemp[0][1].Description);
+            toolTip.SetToolTip(numericUpDown_DTemp1, pierceStat.PIDTemp[0][2].Description);
+            toolTip.SetToolTip(numericUpDown_PTemp2, pierceStat.PIDTemp[1][0].Description);
+            toolTip.SetToolTip(numericUpDown_ITemp2, pierceStat.PIDTemp[1][1].Description);
+            toolTip.SetToolTip(numericUpDown_DTemp2, pierceStat.PIDTemp[1][2].Description);
+
+            toolTip.SetToolTip(numericUpDown_PFreq1, pierceStat.PIDFreq[0][0].Description);
+            toolTip.SetToolTip(numericUpDown_IFreq1, pierceStat.PIDFreq[0][1].Description);
+            toolTip.SetToolTip(numericUpDown_DFreq1, pierceStat.PIDFreq[0][2].Description);
+            toolTip.SetToolTip(numericUpDown_PFreq2, pierceStat.PIDFreq[1][0].Description);
+            toolTip.SetToolTip(numericUpDown_IFreq2, pierceStat.PIDFreq[1][1].Description);
+            toolTip.SetToolTip(numericUpDown_DFreq2, pierceStat.PIDFreq[1][2].Description);
+
+            toolTip.SetToolTip(numericUpDown_SetPointTemp1, pierceStat.TempSet[0].Description);
+            toolTip.SetToolTip(numericUpDown_SetPointTemp2, pierceStat.TempSet[1].Description);
+            toolTip.SetToolTip(numericUpDown_ISet1, pierceStat.CurrentSet[0].Description);
+            toolTip.SetToolTip(numericUpDown_ISet2, pierceStat.CurrentSet[1].Description);
+
+            toolTip.SetToolTip(checkBox_Polarity1, pierceStat.Polarity[0].Description);
+            toolTip.SetToolTip(checkBox_Polarity2, pierceStat.Polarity[1].Description);
+
+            toolTip.SetToolTip(numericUpDown_FreqMeas, pierceStat.FreqMeas.Description);
+            toolTip.SetToolTip(numericUpDown_FreqMeas2, pierceStat.FreqMeas.Description);
+            toolTip.SetToolTip(numericUpDown_SetPointFreq1, pierceStat.FreqSet.Description);
+            toolTip.SetToolTip(numericUpDown_SetPointFreq2, pierceStat.FreqSet.Description);
 
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -62,6 +133,8 @@ namespace PierceStat
 
         }
 
+        protected Color alarmColor = Color.Green;
+
         private PierceStat_Class pierceStat;
         private Form_Settings form_Settings;
         private List<decimal> time;
@@ -69,6 +142,7 @@ namespace PierceStat
         private List<decimal> frequency;
         private List<decimal> derivative;
         private System.Diagnostics.Stopwatch stopWatch;
+        
 
         public void AddMessage(string message)
         {
@@ -500,7 +574,10 @@ namespace PierceStat
             try
             {
                 if (!numericUpDown_SetPointFreq1.Focused)
+                {
                     numericUpDown_FreqMeas.Value = tempD;
+                    numericUpDown_FreqMeas2.Value = tempD;
+                }
             }
             catch
             {
@@ -512,6 +589,16 @@ namespace PierceStat
                 numericUpDown_SetPointFreq1.Value = tempD;
             if (!numericUpDown_SetPointFreq2.Focused)
                 numericUpDown_SetPointFreq2.Value = tempD;
+
+            pictureBox_AlarmCurrentCh1.Refresh();
+            pictureBox_AlarmCurrentCh2.Refresh();
+            pictureBox_AlarmFreq.Refresh();
+            pictureBox_AlarmTemp1.Refresh();
+            pictureBox_AlarmTemp2.Refresh();
+            pictureBox_AlarmTemp3.Refresh();
+            pictureBox_AlarmTemp4.Refresh();
+            pictureBox_AlarmU_Heater.Refresh();
+            pictureBox_AlarmU_Power.Refresh();
             
         }
 
@@ -532,19 +619,24 @@ namespace PierceStat
                 temperature[i].Add(pierceStat.TempMeas[i].Value);
                 chart_Temps.Series[i].Points.AddXY(time.Last(), temperature[i].Last());
             }
+            temperature[4].Add(pierceStat.FreqMeas.Value * numericUpDown_KprtValue.Value + numericUpDown_freqOffset.Value);
+            chart_Temps.Series[4].Points.AddXY(time.Last(), temperature[4].Last());
+
             chart_Temps.Series[0].Enabled = checkBox_PlotTemp1.Checked;
             chart_Temps.Series[1].Enabled = checkBox_PlotTemp2.Checked;
             chart_Temps.Series[2].Enabled = checkBox_PlotTemp3.Checked;
             chart_Temps.Series[3].Enabled = checkBox_PlotTemp4.Checked;
+            chart_Freq.Series[0].Enabled = checkBox_PlotFreq.Checked;
+            chart_Freq.Series[1].Enabled = checkBox_PlotDeriv.Checked;
             frequency.Add(pierceStat.FreqMeas.Value);
             chart_Freq.Series[0].Points.AddXY(time.Last(), frequency.Last());
             int numPointsDeriv = (int)numericUpDown_DerNumber.Value;
-            if (time.Count > (numPointsDeriv - 1)) {
+            if (time.Count > (numPointsDeriv - 1))
                 derivative.Add(Math.LeastSquared(time.GetRange(time.Count - numPointsDeriv, numPointsDeriv), 
                     frequency.GetRange(frequency.Count - numPointsDeriv, numPointsDeriv)).deriv);
-
-                chart_Freq.Series[1].Points.AddXY(time.Last(), derivative.Last());
-            }
+            else
+                derivative.Add(0);
+            chart_Freq.Series[1].Points.AddXY(time.Last(), derivative.Last());
         }
 
         public void ResetPlot()
@@ -591,8 +683,6 @@ namespace PierceStat
                     }
                     break;
                 case "Disconnect":
-                    //if (button_monitoring.Text == "Stop monitoring")
-                    //Button_monitoring_Click(1, System.EventArgs.Empty);
                     bl = pierceStat.Disconnect();
                     if (bl)
                     {
@@ -616,12 +706,22 @@ namespace PierceStat
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            Rectangle rect = new Rectangle(0, 0, pictureBox_AlarmCurrentCh1.ClientSize.Width - 1, pictureBox_AlarmCurrentCh1.ClientSize.Height - 1);
-            System.Drawing.Color color = (System.Drawing.Color.Green);
-            using (System.Drawing.Brush brush = new SolidBrush(color))
+            if (sender is PictureBox pB)
             {
-                e.Graphics.FillEllipse(brush, rect);
+                Color color = Color.Black;
+                color = (pB == pictureBox_AlarmCurrentCh1) ? (pierceStat.IAlarm[0].Value ? Color.Red : Color.Green) : color;
+                color = (pB == pictureBox_AlarmCurrentCh2) ? (pierceStat.IAlarm[1].Value ? Color.Red : Color.Green) : color;
+                color = (pB == pictureBox_AlarmFreq) ? (pierceStat.FreqAlarm.Value ? Color.Red : Color.Green) : color;
+                color = (pB == pictureBox_AlarmTemp1) ? (pierceStat.TempAlarm[0].Value ? Color.Red : Color.Green) : color;
+                color = (pB == pictureBox_AlarmTemp2) ? (pierceStat.TempAlarm[1].Value ? Color.Red : Color.Green) : color;
+                color = (pB == pictureBox_AlarmTemp3) ? (pierceStat.TempAlarm[2].Value ? Color.Red : Color.Green) : color;
+                color = (pB == pictureBox_AlarmTemp4) ? (pierceStat.TempAlarm[3].Value ? Color.Red : Color.Green) : color;
+                color = (pB == pictureBox_AlarmU_Heater) ? (pierceStat.U_HeaterAlarm.Value ? Color.Red : Color.Green) : color;
+                color = (pB == pictureBox_AlarmU_Power) ? (pierceStat.U_PowerAlarm.Value ? Color.Red : Color.Green) : color;
+                e.Graphics.FillEllipse(new SolidBrush(color),
+                new Rectangle(0, 0, pictureBox_AlarmCurrentCh1.ClientSize.Width - 1, pictureBox_AlarmCurrentCh1.ClientSize.Height - 1));
             }
+
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1172,6 +1272,27 @@ namespace PierceStat
         private void button_SaveFlash_Click(object sender, EventArgs e)
         {
             pierceStat.SaveFlash.DoCommand();
+        }
+
+        private void button_SaveData_Click(object sender, EventArgs e)
+        {
+            string delim = "\t";
+            System.IO.StreamWriter file
+                = new System.IO.StreamWriter(AppDomain.CurrentDomain.BaseDirectory + $"PierceStatData_{DateTime.Now.ToString("M_d_yyyy__hh_mm_ss")}.dat");
+            file.WriteLine("Time,s" + delim + "Temp1,C" + delim + "Temp2,C" + delim + "Temp3,C" + delim + "Temp4,C" + delim + "Freq, Hz" + delim + "Deriv, Hz/s");
+            for(int i = 0; i < time.Count; i++)
+            {
+                file.WriteLine($"{time[i]}{delim}{temperature[0][i]}{delim}{temperature[1][i]}{delim}{temperature[2][i]}{delim}{temperature[3][i]}{delim}" +
+                    $"{frequency[i]}{delim}{derivative[i]}");
+            }
+
+            file.Close();
+        }
+
+        private void button_CalibrateKprt_Click(object sender, EventArgs e)
+        {
+            Random rand = new Random();
+            alarmColor = Color.FromArgb(rand.Next(255), rand.Next(255), rand.Next(255));
         }
     }    
 }

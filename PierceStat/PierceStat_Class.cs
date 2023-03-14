@@ -94,6 +94,19 @@ namespace PierceStat
         public ParameterDecimal FreqMeas;
         public ParameterDecimal FreqSet;
 
+        //Alarms
+        public List<ParameterBool> IAlarm;
+        public ParameterBool U_PowerAlarm;
+        public ParameterBool U_HeaterAlarm;
+        public List<ParameterBool> TempAlarm;
+        public ParameterBool FreqAlarm;
+
+        public List<ParameterBool> IAlarmMask;
+        public ParameterBool U_PowerAlarmMask;
+        public ParameterBool U_HeaterAlarmMask;
+        public List<ParameterBool> TempAlarmMask;
+        public ParameterBool FreqAlarmMask;
+
         public Command SaveFlash;
 
         private void _initParams()
@@ -251,9 +264,40 @@ namespace PierceStat
             FreqMeas =          new ParameterDecimal(this,  "Pierce frequency",                 500,    0.0m,       false);
             FreqSet =           new ParameterDecimal(this,  "Set Pierce frequency",             501,    0.0m,       false);
 
-         
-            //Alarms
-            //parametersTable["Alarms", new Parameter<int>("Alarms vector", 700, 0, true);
+
+            IAlarm = new List<ParameterBool>
+            {
+                                new ParameterBool(this,     "Current 1 Alarm",                  701,    true,       false),
+                                new ParameterBool(this,     "Current 2 Alarm",                  702,    true,       false)
+            };
+            TempAlarm = new List<ParameterBool>
+            {
+                                new ParameterBool(this,     "Temp 1 Alarm",                     703,    true,       false),
+                                new ParameterBool(this,     "Temp 2 Alarm",                     704,    true,       false),
+                                new ParameterBool(this,     "Temp 3 Alarm",                     705,    true,       false),
+                                new ParameterBool(this,     "Temp 4 Alarm",                     706,    true,       false)
+            };
+            FreqAlarm = new ParameterBool(this,             "Freq Alarm",                       707,    true,       false);
+            U_HeaterAlarm = new ParameterBool(this,         "U Heater Alarm",                   708,    true,       false);
+            U_PowerAlarm = new ParameterBool(this,          "U Power Alarm",                    709,    true,       false);
+
+            IAlarmMask = new List<ParameterBool>
+            {
+                                new ParameterBool(this,     "Current 1 Alarm Mask",             801,    true,       false),
+                                new ParameterBool(this,     "Current 2 Alarm Mask",             802,    true,       false)
+            };
+            TempAlarmMask = new List<ParameterBool>
+            {
+                                new ParameterBool(this,     "Temp 1 Alarm Mask",                803,    true,       false),
+                                new ParameterBool(this,     "Temp 2 Alarm Mask",                804,    true,       false),
+                                new ParameterBool(this,     "Temp 3 Alarm Mask",                805,    true,       false),
+                                new ParameterBool(this,     "Temp 4 Alarm Mask",                806,    true,       false)
+            };
+            FreqAlarmMask = new ParameterBool(this,         "Freq Alarm Mask",                  807,    true,       false);
+            U_HeaterAlarmMask = new ParameterBool(this,     "U Heater Alarm Mask",              808,    true,       false);
+            U_PowerAlarmMask = new ParameterBool(this,      "U Power Alarm Mask",               809,    true,       false);
+
+
             //parametersTable["Alarms Masks", new Parameter<int>("Alarm masks vector", 800, 0, false);
 
         }

@@ -32,25 +32,25 @@ namespace PierceStat
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem7 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
-            System.Windows.Forms.DataVisualization.Charting.LegendCell legendCell7 = new System.Windows.Forms.DataVisualization.Charting.LegendCell();
-            System.Windows.Forms.DataVisualization.Charting.Series series22 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series23 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title7 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.LegendCellColumn legendCellColumn7 = new System.Windows.Forms.DataVisualization.Charting.LegendCellColumn();
-            System.Windows.Forms.DataVisualization.Charting.LegendCellColumn legendCellColumn8 = new System.Windows.Forms.DataVisualization.Charting.LegendCellColumn();
-            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem8 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
-            System.Windows.Forms.DataVisualization.Charting.LegendCell legendCell8 = new System.Windows.Forms.DataVisualization.Charting.LegendCell();
-            System.Windows.Forms.DataVisualization.Charting.Series series24 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series25 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series26 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series27 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series28 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title8 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea15 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend15 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem15 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
+            System.Windows.Forms.DataVisualization.Charting.LegendCell legendCell15 = new System.Windows.Forms.DataVisualization.Charting.LegendCell();
+            System.Windows.Forms.DataVisualization.Charting.Series series50 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series51 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title15 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea16 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend16 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.LegendCellColumn legendCellColumn15 = new System.Windows.Forms.DataVisualization.Charting.LegendCellColumn();
+            System.Windows.Forms.DataVisualization.Charting.LegendCellColumn legendCellColumn16 = new System.Windows.Forms.DataVisualization.Charting.LegendCellColumn();
+            System.Windows.Forms.DataVisualization.Charting.LegendItem legendItem16 = new System.Windows.Forms.DataVisualization.Charting.LegendItem();
+            System.Windows.Forms.DataVisualization.Charting.LegendCell legendCell16 = new System.Windows.Forms.DataVisualization.Charting.LegendCell();
+            System.Windows.Forms.DataVisualization.Charting.Series series52 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series53 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series54 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series55 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series56 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title16 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.comboBox_ComPortsList = new System.Windows.Forms.ComboBox();
             this.label_COM = new System.Windows.Forms.Label();
             this.menuStrip_Main = new System.Windows.Forms.MenuStrip();
@@ -61,17 +61,24 @@ namespace PierceStat
             this.button_ConnectCOM = new System.Windows.Forms.Button();
             this.richTextBox_Messages = new System.Windows.Forms.RichTextBox();
             this.groupBox_PierceStat = new System.Windows.Forms.GroupBox();
+            this.label42 = new System.Windows.Forms.Label();
+            this.label41 = new System.Windows.Forms.Label();
+            this.numericUpDown_FreqMeas2 = new System.Windows.Forms.NumericUpDown();
+            this.checkBox_PlotDeriv = new System.Windows.Forms.CheckBox();
+            this.checkBox_PlotFreq = new System.Windows.Forms.CheckBox();
+            this.label40 = new System.Windows.Forms.Label();
+            this.button_SaveData = new System.Windows.Forms.Button();
             this.numericUpDown_DerNumber = new System.Windows.Forms.NumericUpDown();
             this.label38 = new System.Windows.Forms.Label();
             this.numericUpDown_TimeInterval = new System.Windows.Forms.NumericUpDown();
             this.label37 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_freqOffset = new System.Windows.Forms.NumericUpDown();
             this.label39 = new System.Windows.Forms.Label();
             this.button_CalibrateKprt = new System.Windows.Forms.Button();
             this.numericUpDown_KprtValue = new System.Windows.Forms.NumericUpDown();
             this.label36 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_NumPointsKprt = new System.Windows.Forms.NumericUpDown();
             this.label35 = new System.Windows.Forms.Label();
             this.numericUpDown_TstopKprt = new System.Windows.Forms.NumericUpDown();
             this.label34 = new System.Windows.Forms.Label();
@@ -216,12 +223,13 @@ namespace PierceStat
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.menuStrip_Main.SuspendLayout();
             this.groupBox_PierceStat.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_FreqMeas2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DerNumber)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_TimeInterval)).BeginInit();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_freqOffset)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_KprtValue)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_NumPointsKprt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_TstopKprt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_TstartKprt)).BeginInit();
             this.groupBox_ChannelsMode.SuspendLayout();
@@ -369,6 +377,13 @@ namespace PierceStat
             // 
             // groupBox_PierceStat
             // 
+            this.groupBox_PierceStat.Controls.Add(this.label42);
+            this.groupBox_PierceStat.Controls.Add(this.label41);
+            this.groupBox_PierceStat.Controls.Add(this.numericUpDown_FreqMeas2);
+            this.groupBox_PierceStat.Controls.Add(this.checkBox_PlotDeriv);
+            this.groupBox_PierceStat.Controls.Add(this.checkBox_PlotFreq);
+            this.groupBox_PierceStat.Controls.Add(this.label40);
+            this.groupBox_PierceStat.Controls.Add(this.button_SaveData);
             this.groupBox_PierceStat.Controls.Add(this.numericUpDown_DerNumber);
             this.groupBox_PierceStat.Controls.Add(this.label38);
             this.groupBox_PierceStat.Controls.Add(this.numericUpDown_TimeInterval);
@@ -398,9 +413,98 @@ namespace PierceStat
             this.groupBox_PierceStat.TabStop = false;
             this.groupBox_PierceStat.Text = "PierceStat™ ";
             // 
+            // label42
+            // 
+            this.label42.AutoSize = true;
+            this.label42.Location = new System.Drawing.Point(1431, 1077);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(29, 20);
+            this.label42.TabIndex = 61;
+            this.label42.Text = "Hz";
+            // 
+            // label41
+            // 
+            this.label41.AutoSize = true;
+            this.label41.Location = new System.Drawing.Point(1176, 1075);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(84, 20);
+            this.label41.TabIndex = 60;
+            this.label41.Text = "Frequency";
+            // 
+            // numericUpDown_FreqMeas2
+            // 
+            this.numericUpDown_FreqMeas2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.numericUpDown_FreqMeas2.DecimalPlaces = 1;
+            this.numericUpDown_FreqMeas2.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numericUpDown_FreqMeas2.Location = new System.Drawing.Point(1266, 1075);
+            this.numericUpDown_FreqMeas2.Maximum = new decimal(new int[] {
+            100000000,
+            0,
+            0,
+            0});
+            this.numericUpDown_FreqMeas2.Name = "numericUpDown_FreqMeas2";
+            this.numericUpDown_FreqMeas2.ReadOnly = true;
+            this.numericUpDown_FreqMeas2.Size = new System.Drawing.Size(150, 26);
+            this.numericUpDown_FreqMeas2.TabIndex = 59;
+            this.numericUpDown_FreqMeas2.ThousandsSeparator = true;
+            this.numericUpDown_FreqMeas2.Value = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            // 
+            // checkBox_PlotDeriv
+            // 
+            this.checkBox_PlotDeriv.AutoSize = true;
+            this.checkBox_PlotDeriv.Checked = true;
+            this.checkBox_PlotDeriv.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_PlotDeriv.Location = new System.Drawing.Point(1014, 1128);
+            this.checkBox_PlotDeriv.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.checkBox_PlotDeriv.Name = "checkBox_PlotDeriv";
+            this.checkBox_PlotDeriv.Size = new System.Drawing.Size(104, 24);
+            this.checkBox_PlotDeriv.TabIndex = 58;
+            this.checkBox_PlotDeriv.Text = "Derivative";
+            this.checkBox_PlotDeriv.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_PlotFreq
+            // 
+            this.checkBox_PlotFreq.AutoSize = true;
+            this.checkBox_PlotFreq.Checked = true;
+            this.checkBox_PlotFreq.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_PlotFreq.Location = new System.Drawing.Point(924, 1127);
+            this.checkBox_PlotFreq.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.checkBox_PlotFreq.Name = "checkBox_PlotFreq";
+            this.checkBox_PlotFreq.Size = new System.Drawing.Size(68, 24);
+            this.checkBox_PlotFreq.TabIndex = 57;
+            this.checkBox_PlotFreq.Text = "Freq";
+            this.checkBox_PlotFreq.UseVisualStyleBackColor = true;
+            // 
+            // label40
+            // 
+            this.label40.AutoSize = true;
+            this.label40.Location = new System.Drawing.Point(816, 1129);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(82, 20);
+            this.label40.TabIndex = 56;
+            this.label40.Text = "Plot select";
+            // 
+            // button_SaveData
+            // 
+            this.button_SaveData.Location = new System.Drawing.Point(1196, 1125);
+            this.button_SaveData.Name = "button_SaveData";
+            this.button_SaveData.Size = new System.Drawing.Size(224, 60);
+            this.button_SaveData.TabIndex = 55;
+            this.button_SaveData.Text = "Save Data";
+            this.button_SaveData.UseVisualStyleBackColor = true;
+            this.button_SaveData.Click += new System.EventHandler(this.button_SaveData_Click);
+            // 
             // numericUpDown_DerNumber
             // 
-            this.numericUpDown_DerNumber.Location = new System.Drawing.Point(1065, 1132);
+            this.numericUpDown_DerNumber.Location = new System.Drawing.Point(1068, 1159);
             this.numericUpDown_DerNumber.Maximum = new decimal(new int[] {
             30,
             0,
@@ -415,7 +519,7 @@ namespace PierceStat
             this.numericUpDown_DerNumber.Size = new System.Drawing.Size(74, 26);
             this.numericUpDown_DerNumber.TabIndex = 54;
             this.numericUpDown_DerNumber.Value = new decimal(new int[] {
-            2,
+            9,
             0,
             0,
             0});
@@ -423,7 +527,7 @@ namespace PierceStat
             // label38
             // 
             this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(816, 1135);
+            this.label38.Location = new System.Drawing.Point(816, 1165);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(220, 20);
             this.label38.TabIndex = 52;
@@ -463,12 +567,12 @@ namespace PierceStat
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.numericUpDown2);
+            this.groupBox4.Controls.Add(this.numericUpDown_freqOffset);
             this.groupBox4.Controls.Add(this.label39);
             this.groupBox4.Controls.Add(this.button_CalibrateKprt);
             this.groupBox4.Controls.Add(this.numericUpDown_KprtValue);
             this.groupBox4.Controls.Add(this.label36);
-            this.groupBox4.Controls.Add(this.numericUpDown1);
+            this.groupBox4.Controls.Add(this.numericUpDown_NumPointsKprt);
             this.groupBox4.Controls.Add(this.label35);
             this.groupBox4.Controls.Add(this.numericUpDown_TstopKprt);
             this.groupBox4.Controls.Add(this.label34);
@@ -483,29 +587,30 @@ namespace PierceStat
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Kprt Calibration";
             // 
-            // numericUpDown2
+            // numericUpDown_freqOffset
             // 
-            this.numericUpDown2.DecimalPlaces = 1;
-            this.numericUpDown2.Increment = new decimal(new int[] {
+            this.numericUpDown_freqOffset.DecimalPlaces = 1;
+            this.numericUpDown_freqOffset.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.numericUpDown2.Location = new System.Drawing.Point(504, 57);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
+            this.numericUpDown_freqOffset.Location = new System.Drawing.Point(481, 57);
+            this.numericUpDown_freqOffset.Maximum = new decimal(new int[] {
             20000000,
             0,
             0,
             0});
-            this.numericUpDown2.Minimum = new decimal(new int[] {
+            this.numericUpDown_freqOffset.Minimum = new decimal(new int[] {
             100000,
             0,
             0,
             0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(99, 26);
-            this.numericUpDown2.TabIndex = 58;
-            this.numericUpDown2.Value = new decimal(new int[] {
+            this.numericUpDown_freqOffset.Name = "numericUpDown_freqOffset";
+            this.numericUpDown_freqOffset.Size = new System.Drawing.Size(140, 26);
+            this.numericUpDown_freqOffset.TabIndex = 58;
+            this.numericUpDown_freqOffset.ThousandsSeparator = true;
+            this.numericUpDown_freqOffset.Value = new decimal(new int[] {
             1000000,
             0,
             0,
@@ -529,6 +634,7 @@ namespace PierceStat
             this.button_CalibrateKprt.TabIndex = 56;
             this.button_CalibrateKprt.Text = "Calibrate";
             this.button_CalibrateKprt.UseVisualStyleBackColor = true;
+            this.button_CalibrateKprt.Click += new System.EventHandler(this.button_CalibrateKprt_Click);
             // 
             // numericUpDown_KprtValue
             // 
@@ -553,10 +659,10 @@ namespace PierceStat
             this.numericUpDown_KprtValue.Size = new System.Drawing.Size(99, 26);
             this.numericUpDown_KprtValue.TabIndex = 55;
             this.numericUpDown_KprtValue.Value = new decimal(new int[] {
-            100,
+            5000,
             0,
             0,
-            -2147483648});
+            -2147418112});
             // 
             // label36
             // 
@@ -567,23 +673,23 @@ namespace PierceStat
             this.label36.TabIndex = 54;
             this.label36.Text = "Kprt, Hz/°C";
             // 
-            // numericUpDown1
+            // numericUpDown_NumPointsKprt
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(345, 26);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.numericUpDown_NumPointsKprt.Location = new System.Drawing.Point(345, 26);
+            this.numericUpDown_NumPointsKprt.Maximum = new decimal(new int[] {
             30,
             0,
             0,
             0});
-            this.numericUpDown1.Minimum = new decimal(new int[] {
+            this.numericUpDown_NumPointsKprt.Minimum = new decimal(new int[] {
             2,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(74, 26);
-            this.numericUpDown1.TabIndex = 53;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.numericUpDown_NumPointsKprt.Name = "numericUpDown_NumPointsKprt";
+            this.numericUpDown_NumPointsKprt.Size = new System.Drawing.Size(74, 26);
+            this.numericUpDown_NumPointsKprt.TabIndex = 53;
+            this.numericUpDown_NumPointsKprt.Value = new decimal(new int[] {
             2,
             0,
             0,
@@ -791,115 +897,115 @@ namespace PierceStat
             // 
             // chart_Freq
             // 
-            chartArea7.AxisX.IsStartedFromZero = false;
-            chartArea7.AxisX.Title = "Time, s";
-            chartArea7.AxisY.IsStartedFromZero = false;
-            chartArea7.AxisY.Title = "Frequency, Hz";
-            chartArea7.AxisY2.IsStartedFromZero = false;
-            chartArea7.AxisY2.MajorGrid.Enabled = false;
-            chartArea7.AxisY2.Title = "Derivative, Hz/s";
-            chartArea7.Name = "ChartArea1";
-            this.chart_Freq.ChartAreas.Add(chartArea7);
-            legendCell7.Name = "Cell1";
-            legendItem7.Cells.Add(legendCell7);
-            legend7.CustomItems.Add(legendItem7);
-            legend7.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            legend7.Name = "Legend1";
-            this.chart_Freq.Legends.Add(legend7);
+            chartArea15.AxisX.IsStartedFromZero = false;
+            chartArea15.AxisX.Title = "Time, s";
+            chartArea15.AxisY.IsStartedFromZero = false;
+            chartArea15.AxisY.Title = "Frequency, Hz";
+            chartArea15.AxisY2.IsStartedFromZero = false;
+            chartArea15.AxisY2.MajorGrid.Enabled = false;
+            chartArea15.AxisY2.Title = "Derivative, Hz/s";
+            chartArea15.Name = "ChartArea1";
+            this.chart_Freq.ChartAreas.Add(chartArea15);
+            legendCell15.Name = "Cell1";
+            legendItem15.Cells.Add(legendCell15);
+            legend15.CustomItems.Add(legendItem15);
+            legend15.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            legend15.Name = "Legend1";
+            this.chart_Freq.Legends.Add(legend15);
             this.chart_Freq.Location = new System.Drawing.Point(813, 655);
             this.chart_Freq.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chart_Freq.Name = "chart_Freq";
-            series22.ChartArea = "ChartArea1";
-            series22.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series22.Legend = "Legend1";
-            series22.LegendText = "Frequency";
-            series22.Name = "Series_FreqData";
-            series23.ChartArea = "ChartArea1";
-            series23.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series23.Legend = "Legend1";
-            series23.LegendText = "Derivative";
-            series23.Name = "Series_DFreq";
-            series23.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            series23.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
-            series23.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            this.chart_Freq.Series.Add(series22);
-            this.chart_Freq.Series.Add(series23);
+            series50.ChartArea = "ChartArea1";
+            series50.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series50.Legend = "Legend1";
+            series50.LegendText = "Frequency";
+            series50.Name = "Series_FreqData";
+            series51.ChartArea = "ChartArea1";
+            series51.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series51.Legend = "Legend1";
+            series51.LegendText = "Derivative";
+            series51.Name = "Series_DFreq";
+            series51.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series51.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
+            series51.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            this.chart_Freq.Series.Add(series50);
+            this.chart_Freq.Series.Add(series51);
             this.chart_Freq.Size = new System.Drawing.Size(656, 462);
             this.chart_Freq.TabIndex = 37;
             this.chart_Freq.Text = "Frequency";
-            title7.Name = "Title1";
-            title7.Text = "Frequency and derivative";
-            this.chart_Freq.Titles.Add(title7);
+            title15.Name = "Title1";
+            title15.Text = "Frequency and derivative";
+            this.chart_Freq.Titles.Add(title15);
             // 
             // chart_Temps
             // 
-            chartArea8.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea8.AxisX.Title = "Time, s";
-            chartArea8.AxisY.IsStartedFromZero = false;
-            chartArea8.AxisY.Title = "Temp, °C";
-            chartArea8.Name = "ChartArea1";
-            this.chart_Temps.ChartAreas.Add(chartArea8);
-            legendCellColumn7.ColumnType = System.Windows.Forms.DataVisualization.Charting.LegendCellColumnType.SeriesSymbol;
-            legendCellColumn7.Name = "Symbols";
-            legendCellColumn8.Name = "Names";
-            legend8.CellColumns.Add(legendCellColumn7);
-            legend8.CellColumns.Add(legendCellColumn8);
-            legendCell8.Name = "Cell1";
-            legendItem8.Cells.Add(legendCell8);
-            legend8.CustomItems.Add(legendItem8);
-            legend8.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            legend8.HeaderSeparator = System.Windows.Forms.DataVisualization.Charting.LegendSeparatorStyle.Line;
-            legend8.Name = "Legend1";
-            this.chart_Temps.Legends.Add(legend8);
+            chartArea16.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea16.AxisX.Title = "Time, s";
+            chartArea16.AxisY.IsStartedFromZero = false;
+            chartArea16.AxisY.Title = "Temp, °C";
+            chartArea16.Name = "ChartArea1";
+            this.chart_Temps.ChartAreas.Add(chartArea16);
+            legendCellColumn15.ColumnType = System.Windows.Forms.DataVisualization.Charting.LegendCellColumnType.SeriesSymbol;
+            legendCellColumn15.Name = "Symbols";
+            legendCellColumn16.Name = "Names";
+            legend16.CellColumns.Add(legendCellColumn15);
+            legend16.CellColumns.Add(legendCellColumn16);
+            legendCell16.Name = "Cell1";
+            legendItem16.Cells.Add(legendCell16);
+            legend16.CustomItems.Add(legendItem16);
+            legend16.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            legend16.HeaderSeparator = System.Windows.Forms.DataVisualization.Charting.LegendSeparatorStyle.Line;
+            legend16.Name = "Legend1";
+            this.chart_Temps.Legends.Add(legend16);
             this.chart_Temps.Location = new System.Drawing.Point(813, 38);
             this.chart_Temps.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chart_Temps.Name = "chart_Temps";
-            series24.ChartArea = "ChartArea1";
-            series24.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series24.Legend = "Legend1";
-            series24.LegendText = "Temp 1";
-            series24.Name = "Series_Temp1Data";
-            series24.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            series24.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            series25.ChartArea = "ChartArea1";
-            series25.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series25.Legend = "Legend1";
-            series25.LegendText = "Temp 2";
-            series25.Name = "Series_Temp2Data";
-            series25.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            series25.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            series26.ChartArea = "ChartArea1";
-            series26.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series26.Legend = "Legend1";
-            series26.LegendText = "Temp3";
-            series26.Name = "Series_Temp3Data";
-            series26.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            series26.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            series27.ChartArea = "ChartArea1";
-            series27.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series27.Legend = "Legend1";
-            series27.LegendText = "Temp 4";
-            series27.Name = "Series_Temp4Data";
-            series27.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            series27.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            series28.ChartArea = "ChartArea1";
-            series28.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series28.Legend = "Legend1";
-            series28.LegendText = "Temp (f)";
-            series28.Name = "Series_TempFreqData";
-            series28.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            series28.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            this.chart_Temps.Series.Add(series24);
-            this.chart_Temps.Series.Add(series25);
-            this.chart_Temps.Series.Add(series26);
-            this.chart_Temps.Series.Add(series27);
-            this.chart_Temps.Series.Add(series28);
+            series52.ChartArea = "ChartArea1";
+            series52.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series52.Legend = "Legend1";
+            series52.LegendText = "Temp 1";
+            series52.Name = "Series_Temp1Data";
+            series52.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series52.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series53.ChartArea = "ChartArea1";
+            series53.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series53.Legend = "Legend1";
+            series53.LegendText = "Temp 2";
+            series53.Name = "Series_Temp2Data";
+            series53.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series53.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series54.ChartArea = "ChartArea1";
+            series54.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series54.Legend = "Legend1";
+            series54.LegendText = "Temp3";
+            series54.Name = "Series_Temp3Data";
+            series54.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series54.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series55.ChartArea = "ChartArea1";
+            series55.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series55.Legend = "Legend1";
+            series55.LegendText = "Temp 4";
+            series55.Name = "Series_Temp4Data";
+            series55.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series55.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series56.ChartArea = "ChartArea1";
+            series56.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series56.Legend = "Legend1";
+            series56.LegendText = "Temp (f)";
+            series56.Name = "Series_TempFreqData";
+            series56.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series56.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            this.chart_Temps.Series.Add(series52);
+            this.chart_Temps.Series.Add(series53);
+            this.chart_Temps.Series.Add(series54);
+            this.chart_Temps.Series.Add(series55);
+            this.chart_Temps.Series.Add(series56);
             this.chart_Temps.Size = new System.Drawing.Size(656, 462);
             this.chart_Temps.TabIndex = 36;
             this.chart_Temps.Text = "Temperatures";
-            title8.Name = "Title1";
-            title8.Text = "Temperature";
-            this.chart_Temps.Titles.Add(title8);
+            title16.Name = "Title1";
+            title16.Text = "Temperature";
+            this.chart_Temps.Titles.Add(title16);
             // 
             // button_SaveFlash
             // 
@@ -1073,6 +1179,7 @@ namespace PierceStat
             this.pictureBox_AlarmFreq.Size = new System.Drawing.Size(30, 31);
             this.pictureBox_AlarmFreq.TabIndex = 68;
             this.pictureBox_AlarmFreq.TabStop = false;
+            this.pictureBox_AlarmFreq.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
             // checkBox_AlarmTemp3Masked
             // 
@@ -1122,6 +1229,7 @@ namespace PierceStat
             this.numericUpDown_FreqMax.Name = "numericUpDown_FreqMax";
             this.numericUpDown_FreqMax.Size = new System.Drawing.Size(120, 26);
             this.numericUpDown_FreqMax.TabIndex = 76;
+            this.numericUpDown_FreqMax.ThousandsSeparator = true;
             this.numericUpDown_FreqMax.Value = new decimal(new int[] {
             1000000,
             0,
@@ -1156,12 +1264,12 @@ namespace PierceStat
             this.numericUpDown_FreqMin.Name = "numericUpDown_FreqMin";
             this.numericUpDown_FreqMin.Size = new System.Drawing.Size(120, 26);
             this.numericUpDown_FreqMin.TabIndex = 35;
+            this.numericUpDown_FreqMin.ThousandsSeparator = true;
             this.numericUpDown_FreqMin.Value = new decimal(new int[] {
             1000000,
             0,
             0,
             0});
-            this.numericUpDown_FreqMin.ValueChanged += new System.EventHandler(this.numericUpDown_FreqMin_ValueChanged);
             // 
             // label4
             // 
@@ -1182,6 +1290,7 @@ namespace PierceStat
             this.pictureBox_AlarmTemp4.Size = new System.Drawing.Size(30, 31);
             this.pictureBox_AlarmTemp4.TabIndex = 67;
             this.pictureBox_AlarmTemp4.TabStop = false;
+            this.pictureBox_AlarmTemp4.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
             // numericUpDown_FreqMeas
             // 
@@ -1196,6 +1305,7 @@ namespace PierceStat
             this.numericUpDown_FreqMeas.ReadOnly = true;
             this.numericUpDown_FreqMeas.Size = new System.Drawing.Size(120, 26);
             this.numericUpDown_FreqMeas.TabIndex = 35;
+            this.numericUpDown_FreqMeas.ThousandsSeparator = true;
             this.numericUpDown_FreqMeas.Value = new decimal(new int[] {
             1000000,
             0,
@@ -1210,6 +1320,7 @@ namespace PierceStat
             this.pictureBox_AlarmTemp3.Size = new System.Drawing.Size(30, 31);
             this.pictureBox_AlarmTemp3.TabIndex = 66;
             this.pictureBox_AlarmTemp3.TabStop = false;
+            this.pictureBox_AlarmTemp3.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
             // label24
             // 
@@ -1230,6 +1341,7 @@ namespace PierceStat
             this.pictureBox_AlarmTemp2.Size = new System.Drawing.Size(30, 31);
             this.pictureBox_AlarmTemp2.TabIndex = 65;
             this.pictureBox_AlarmTemp2.TabStop = false;
+            this.pictureBox_AlarmTemp2.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
             // label26
             // 
@@ -1250,6 +1362,7 @@ namespace PierceStat
             this.pictureBox_AlarmTemp1.Size = new System.Drawing.Size(30, 31);
             this.pictureBox_AlarmTemp1.TabIndex = 64;
             this.pictureBox_AlarmTemp1.TabStop = false;
+            this.pictureBox_AlarmTemp1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
             // numericUpDown_CurrentCh1Meas
             // 
@@ -1881,6 +1994,7 @@ namespace PierceStat
             this.pictureBox_AlarmCurrentCh2.Size = new System.Drawing.Size(30, 31);
             this.pictureBox_AlarmCurrentCh2.TabIndex = 53;
             this.pictureBox_AlarmCurrentCh2.TabStop = false;
+            this.pictureBox_AlarmCurrentCh2.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
             // label18
             // 
@@ -1901,6 +2015,7 @@ namespace PierceStat
             this.pictureBox_AlarmU_Power.Size = new System.Drawing.Size(30, 31);
             this.pictureBox_AlarmU_Power.TabIndex = 54;
             this.pictureBox_AlarmU_Power.TabStop = false;
+            this.pictureBox_AlarmU_Power.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
             // label17
             // 
@@ -1921,6 +2036,7 @@ namespace PierceStat
             this.pictureBox_AlarmU_Heater.Size = new System.Drawing.Size(30, 31);
             this.pictureBox_AlarmU_Heater.TabIndex = 55;
             this.pictureBox_AlarmU_Heater.TabStop = false;
+            this.pictureBox_AlarmU_Heater.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
             // label16
             // 
@@ -2757,13 +2873,14 @@ namespace PierceStat
             this.menuStrip_Main.PerformLayout();
             this.groupBox_PierceStat.ResumeLayout(false);
             this.groupBox_PierceStat.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_FreqMeas2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_DerNumber)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_TimeInterval)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_freqOffset)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_KprtValue)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_NumPointsKprt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_TstopKprt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_TstartKprt)).EndInit();
             this.groupBox_ChannelsMode.ResumeLayout(false);
@@ -2994,7 +3111,7 @@ namespace PierceStat
         private Label label33;
         private NumericUpDown numericUpDown_TstartKprt;
         private GroupBox groupBox4;
-        private NumericUpDown numericUpDown1;
+        private NumericUpDown numericUpDown_NumPointsKprt;
         private Label label35;
         private NumericUpDown numericUpDown_TstopKprt;
         private Label label34;
@@ -3006,8 +3123,15 @@ namespace PierceStat
         private NumericUpDown numericUpDown_DerNumber;
         private Label label38;
         private Label label39;
-        private NumericUpDown numericUpDown2;
+        private NumericUpDown numericUpDown_freqOffset;
         private Timer timer1;
+        private Button button_SaveData;
+        private CheckBox checkBox_PlotDeriv;
+        private CheckBox checkBox_PlotFreq;
+        private Label label40;
+        private Label label42;
+        private Label label41;
+        private NumericUpDown numericUpDown_FreqMeas2;
     }
 
 }

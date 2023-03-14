@@ -1,0 +1,12 @@
+C:\Users\xottal\YandexDisk\Visual Studio Projects\PierceStat\PierceStat\bin\Release\PierceStat.exe.config
+C:\Users\xottal\YandexDisk\Visual Studio Projects\PierceStat\PierceStat\bin\Release\PierceStat.exe
+C:\Users\xottal\YandexDisk\Visual Studio Projects\PierceStat\PierceStat\bin\Release\PierceStat.pdb
+C:\Users\xottal\YandexDisk\Visual Studio Projects\PierceStat\PierceStat\obj\Release\PierceStat.csproj.AssemblyReference.cache
+C:\Users\xottal\YandexDisk\Visual Studio Projects\PierceStat\PierceStat\obj\Release\PierceStat.csproj.SuggestedBindingRedirects.cache
+C:\Users\xottal\YandexDisk\Visual Studio Projects\PierceStat\PierceStat\obj\Release\PierceStat.Form_MainWindow.resources
+C:\Users\xottal\YandexDisk\Visual Studio Projects\PierceStat\PierceStat\obj\Release\PierceStat.Properties.Resources.resources
+C:\Users\xottal\YandexDisk\Visual Studio Projects\PierceStat\PierceStat\obj\Release\PierceStat.Form_Settings.resources
+C:\Users\xottal\YandexDisk\Visual Studio Projects\PierceStat\PierceStat\obj\Release\PierceStat.csproj.GenerateResource.cache
+C:\Users\xottal\YandexDisk\Visual Studio Projects\PierceStat\PierceStat\obj\Release\PierceStat.csproj.CoreCompileInputs.cache
+C:\Users\xottal\YandexDisk\Visual Studio Projects\PierceStat\PierceStat\obj\Release\PierceStat.exe
+C:\Users\xottal\YandexDisk\Visual Studio Projects\PierceStat\PierceStat\obj\Release\PierceStat.pdb
