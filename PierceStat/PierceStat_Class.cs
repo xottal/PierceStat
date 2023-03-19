@@ -93,19 +93,12 @@ namespace PierceStat
         public List<ParameterBool> Polarity;
         public ParameterDecimal FreqMeas;
         public ParameterDecimal FreqSet;
+        public ParameterDecimal FreqMin;
+        public ParameterDecimal FreqMax;
 
         //Alarms
-        public List<ParameterBool> IAlarm;
-        public ParameterBool U_PowerAlarm;
-        public ParameterBool U_HeaterAlarm;
-        public List<ParameterBool> TempAlarm;
-        public ParameterBool FreqAlarm;
-
-        public List<ParameterBool> IAlarmMask;
-        public ParameterBool U_PowerAlarmMask;
-        public ParameterBool U_HeaterAlarmMask;
-        public List<ParameterBool> TempAlarmMask;
-        public ParameterBool FreqAlarmMask;
+        public ParameterInt Alarms;
+        public ParameterInt AlarmMasks;
 
         public Command SaveFlash;
 
@@ -261,45 +254,14 @@ namespace PierceStat
                                 new ParameterBool(this,     "Channel 1 Polarity",               411,    true,       false),
                                 new ParameterBool(this,     "Channel 2 Polarity",               412,    true,       false)
             };
-            FreqMeas =          new ParameterDecimal(this,  "Pierce frequency",                 500,    0.0m,       false);
+            FreqMeas =          new ParameterDecimal(this,  "Pierce frequency",                 500,    0.0m,       true);
             FreqSet =           new ParameterDecimal(this,  "Set Pierce frequency",             501,    0.0m,       false);
+            FreqMin =           new ParameterDecimal(this,  "Min frequency",                    502,    0.0m,       false);
+            FreqMax =           new ParameterDecimal(this,  "Max frequency",                    503,    0.0m,       false);
 
 
-            IAlarm = new List<ParameterBool>
-            {
-                                new ParameterBool(this,     "Current 1 Alarm",                  701,    true,       false),
-                                new ParameterBool(this,     "Current 2 Alarm",                  702,    true,       false)
-            };
-            TempAlarm = new List<ParameterBool>
-            {
-                                new ParameterBool(this,     "Temp 1 Alarm",                     703,    true,       false),
-                                new ParameterBool(this,     "Temp 2 Alarm",                     704,    true,       false),
-                                new ParameterBool(this,     "Temp 3 Alarm",                     705,    true,       false),
-                                new ParameterBool(this,     "Temp 4 Alarm",                     706,    true,       false)
-            };
-            FreqAlarm = new ParameterBool(this,             "Freq Alarm",                       707,    true,       false);
-            U_HeaterAlarm = new ParameterBool(this,         "U Heater Alarm",                   708,    true,       false);
-            U_PowerAlarm = new ParameterBool(this,          "U Power Alarm",                    709,    true,       false);
-
-            IAlarmMask = new List<ParameterBool>
-            {
-                                new ParameterBool(this,     "Current 1 Alarm Mask",             801,    true,       false),
-                                new ParameterBool(this,     "Current 2 Alarm Mask",             802,    true,       false)
-            };
-            TempAlarmMask = new List<ParameterBool>
-            {
-                                new ParameterBool(this,     "Temp 1 Alarm Mask",                803,    true,       false),
-                                new ParameterBool(this,     "Temp 2 Alarm Mask",                804,    true,       false),
-                                new ParameterBool(this,     "Temp 3 Alarm Mask",                805,    true,       false),
-                                new ParameterBool(this,     "Temp 4 Alarm Mask",                806,    true,       false)
-            };
-            FreqAlarmMask = new ParameterBool(this,         "Freq Alarm Mask",                  807,    true,       false);
-            U_HeaterAlarmMask = new ParameterBool(this,     "U Heater Alarm Mask",              808,    true,       false);
-            U_PowerAlarmMask = new ParameterBool(this,      "U Power Alarm Mask",               809,    true,       false);
-
-
-            //parametersTable["Alarms Masks", new Parameter<int>("Alarm masks vector", 800, 0, false);
-
+            Alarms = new ParameterInt(this,                 "Alarm Vector",                     700,    0b0,        false);
+            AlarmMasks = new ParameterInt(this,             "Alarm Masks Vector",               800,    0b0,        false);
         }
     }
     

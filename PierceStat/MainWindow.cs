@@ -21,7 +21,8 @@ namespace PierceStat
         {
             InitializeComponent();
             updateCOMPortsToolStripMenuItem_Click(1, null);
-            
+            InterfaceEnable(false);
+
             PierceStat_Class.MessageHandler messageHandler = new PierceStat_Class.MessageHandler(AddMessage);
             pierceStat = new PierceStat_Class(messageHandler);
             form_Settings = new Form_Settings(pierceStat);
@@ -54,7 +55,15 @@ namespace PierceStat
             numericUpDown_Temp3Meas.Controls[0].Enabled = false;
             numericUpDown_Temp4Meas.Controls[0].Enabled = false;
 
+            kprt = numericUpDown_KprtValue.Value;
+            offset = numericUpDown_freqOffset.Value;
+            bandwidth = numericUpDown_FilterBand.Value;
+            deltaF = numericUpDown_DeltaF.Value;
+            awaitTime = numericUpDown_AwaitTime.Value;
+            modeDependent = radioButton_ModeDependent.Checked;
+
             ToolTip toolTip = new ToolTip();
+
 
 
             toolTip.SetToolTip(numericUpDown_U_HeaterSet, pierceStat.U_HeaterSet.Description);
@@ -133,8 +142,6 @@ namespace PierceStat
 
         }
 
-        protected Color alarmColor = Color.Green;
-
         private PierceStat_Class pierceStat;
         private Form_Settings form_Settings;
         private List<decimal> time;
@@ -142,7 +149,13 @@ namespace PierceStat
         private List<decimal> frequency;
         private List<decimal> derivative;
         private System.Diagnostics.Stopwatch stopWatch;
-        
+
+        private Decimal kprt;
+        private Decimal offset;
+        private Decimal bandwidth;
+        private Decimal deltaF;
+        private Decimal awaitTime;
+        private bool modeDependent;
 
         public void AddMessage(string message)
         {
@@ -160,6 +173,7 @@ namespace PierceStat
         {
             comboBox_ComPortsList.Enabled = bl;
             groupBox_PierceStat.Enabled = bl;
+            button_AddData.Enabled = bl;
         }
 
         public void PullParamaters()
@@ -220,14 +234,19 @@ namespace PierceStat
                 pierceStat.Polarity[0],
                 pierceStat.Polarity[1],
                 pierceStat.FreqMeas,
-                pierceStat.FreqSet };
-            StringBuilder command = new StringBuilder();
+                pierceStat.FreqSet,
+                pierceStat.FreqMin,
+                pierceStat.FreqMax,
+                pierceStat.Alarms,
+                pierceStat.AlarmMasks
+            };
+            StringBuilder commandString = new StringBuilder();
             foreach(var param in parametersToPull) 
             { 
-                command.Append(param.CommandGet); 
+                commandString.Append(param.CommandGet); 
             }
-            pierceStat.WriteRs(command.ToString());
-            command.Clear();
+            pierceStat.WriteRs(commandString.ToString());
+            commandString.Clear();
 
             decimal tempD = pierceStat.U_HeaterSet.ReadFromCOM();
             if (!numericUpDown_U_HeaterSet.Focused)
@@ -589,6 +608,32 @@ namespace PierceStat
                 numericUpDown_SetPointFreq1.Value = tempD;
             if (!numericUpDown_SetPointFreq2.Focused)
                 numericUpDown_SetPointFreq2.Value = tempD;
+            tempD = pierceStat.FreqMin.ReadFromCOM();
+            if (!numericUpDown_FreqMin.Focused)
+                numericUpDown_FreqMin.Value = tempD;
+            tempD = pierceStat.FreqMax.ReadFromCOM();
+            if (!numericUpDown_FreqMax.Focused)
+                numericUpDown_FreqMax.Value = tempD;
+            pierceStat.Alarms.ReadFromCOM();
+            pierceStat.AlarmMasks.ReadFromCOM();
+            if (!checkBox_AlarmCurrentCh1Masked.Focused)
+                checkBox_AlarmCurrentCh1Masked.Checked = ((pierceStat.AlarmMasks.Value >> 0) & 1) == 0;
+            if (!checkBox_AlarmCurrentCh2Masked.Focused)
+                checkBox_AlarmCurrentCh2Masked.Checked = ((pierceStat.AlarmMasks.Value >> 1) & 1) == 0;
+            if (!checkBox_AlarmU_PowerMasked.Focused)
+                checkBox_AlarmU_PowerMasked.Checked = ((pierceStat.AlarmMasks.Value >> 2) & 1) == 0;
+            if (!checkBox_AlarmU_HeaterMasked.Focused)
+                checkBox_AlarmU_HeaterMasked.Checked = ((pierceStat.AlarmMasks.Value >> 3) & 1) == 0;
+            if (!checkBox_AlarmTemp1Masked.Focused)
+                checkBox_AlarmTemp1Masked.Checked = ((pierceStat.AlarmMasks.Value >> 4) & 1) == 0;
+            if (!checkBox_AlarmTemp2Masked.Focused)
+                checkBox_AlarmTemp2Masked.Checked = ((pierceStat.AlarmMasks.Value >> 5) & 1) == 0;
+            if (!checkBox_AlarmTemp3Masked.Focused)
+                checkBox_AlarmTemp3Masked.Checked = ((pierceStat.AlarmMasks.Value >> 6) & 1) == 0;
+            if (!checkBox_AlarmTemp4Masked.Focused)
+                checkBox_AlarmTemp4Masked.Checked = ((pierceStat.AlarmMasks.Value >> 7) & 1) == 0;
+            if (!checkBox_AlarmFreqMasked.Focused)
+                checkBox_AlarmFreqMasked.Checked = ((pierceStat.AlarmMasks.Value >> 8) & 1) == 0;
 
             pictureBox_AlarmCurrentCh1.Refresh();
             pictureBox_AlarmCurrentCh2.Refresh();
@@ -619,16 +664,42 @@ namespace PierceStat
                 temperature[i].Add(pierceStat.TempMeas[i].Value);
                 chart_Temps.Series[i].Points.AddXY(time.Last(), temperature[i].Last());
             }
-            temperature[4].Add(pierceStat.FreqMeas.Value * numericUpDown_KprtValue.Value + numericUpDown_freqOffset.Value);
-            chart_Temps.Series[4].Points.AddXY(time.Last(), temperature[4].Last());
+            
 
             chart_Temps.Series[0].Enabled = checkBox_PlotTemp1.Checked;
             chart_Temps.Series[1].Enabled = checkBox_PlotTemp2.Checked;
             chart_Temps.Series[2].Enabled = checkBox_PlotTemp3.Checked;
             chart_Temps.Series[3].Enabled = checkBox_PlotTemp4.Checked;
+            chart_Temps.Series[4].Enabled = checkBox_PlotTempFreq.Checked;
             chart_Freq.Series[0].Enabled = checkBox_PlotFreq.Checked;
             chart_Freq.Series[1].Enabled = checkBox_PlotDeriv.Checked;
-            frequency.Add(pierceStat.FreqMeas.Value);
+
+            if(checkBox_PeakFilter.Checked && frequency.Count > 2)
+            {
+                
+                if (System.Math.Abs(frequency[frequency.Count - 1] - frequency[frequency.Count - 2]) < bandwidth)
+                {
+                    Decimal average = (frequency[frequency.Count - 1] + frequency[frequency.Count - 2]) / 2;
+                    if (System.Math.Abs(pierceStat.FreqMeas.Value - average) > bandwidth)
+                    {
+                        frequency.Add(frequency[frequency.Count - 1]);
+                    }
+                    else
+                    {
+                        frequency.Add(pierceStat.FreqMeas.Value);
+                    }
+                }
+                else
+                {
+                    frequency.Add(pierceStat.FreqMeas.Value);
+                }                
+            }
+            else
+            {
+                frequency.Add(pierceStat.FreqMeas.Value);
+            }
+            temperature[4].Add((frequency.Last() - offset)/kprt);
+            chart_Temps.Series[4].Points.AddXY(time.Last(), temperature[4].Last());
             chart_Freq.Series[0].Points.AddXY(time.Last(), frequency.Last());
             int numPointsDeriv = (int)numericUpDown_DerNumber.Value;
             if (time.Count > (numPointsDeriv - 1))
@@ -709,15 +780,15 @@ namespace PierceStat
             if (sender is PictureBox pB)
             {
                 Color color = Color.Black;
-                color = (pB == pictureBox_AlarmCurrentCh1) ? (pierceStat.IAlarm[0].Value ? Color.Red : Color.Green) : color;
-                color = (pB == pictureBox_AlarmCurrentCh2) ? (pierceStat.IAlarm[1].Value ? Color.Red : Color.Green) : color;
-                color = (pB == pictureBox_AlarmFreq) ? (pierceStat.FreqAlarm.Value ? Color.Red : Color.Green) : color;
-                color = (pB == pictureBox_AlarmTemp1) ? (pierceStat.TempAlarm[0].Value ? Color.Red : Color.Green) : color;
-                color = (pB == pictureBox_AlarmTemp2) ? (pierceStat.TempAlarm[1].Value ? Color.Red : Color.Green) : color;
-                color = (pB == pictureBox_AlarmTemp3) ? (pierceStat.TempAlarm[2].Value ? Color.Red : Color.Green) : color;
-                color = (pB == pictureBox_AlarmTemp4) ? (pierceStat.TempAlarm[3].Value ? Color.Red : Color.Green) : color;
-                color = (pB == pictureBox_AlarmU_Heater) ? (pierceStat.U_HeaterAlarm.Value ? Color.Red : Color.Green) : color;
-                color = (pB == pictureBox_AlarmU_Power) ? (pierceStat.U_PowerAlarm.Value ? Color.Red : Color.Green) : color;
+                color = (pB == pictureBox_AlarmCurrentCh1) ? ((pierceStat.Alarms.Value & (1 << 0)) != 0 ? Color.Red : Color.Green) : color;
+                color = (pB == pictureBox_AlarmCurrentCh2) ? ((pierceStat.Alarms.Value & (1 << 1)) != 0 ? Color.Red : Color.Green) : color;
+                color = (pB == pictureBox_AlarmFreq) ? ((pierceStat.Alarms.Value & (1 << 8)) != 0 ? Color.Red : Color.Green) : color;
+                color = (pB == pictureBox_AlarmTemp1) ? ((pierceStat.Alarms.Value & (1 << 4)) != 0 ? Color.Red : Color.Green) : color;
+                color = (pB == pictureBox_AlarmTemp2) ? ((pierceStat.Alarms.Value & (1 << 5)) != 0 ? Color.Red : Color.Green) : color;
+                color = (pB == pictureBox_AlarmTemp3) ? ((pierceStat.Alarms.Value & (1 << 6)) != 0 ? Color.Red : Color.Green) : color;
+                color = (pB == pictureBox_AlarmTemp4) ? ((pierceStat.Alarms.Value & (1 << 7)) != 0 ? Color.Red : Color.Green) : color;
+                color = (pB == pictureBox_AlarmU_Heater) ? ((pierceStat.Alarms.Value & (1 << 3)) != 0 ? Color.Red : Color.Green) : color;
+                color = (pB == pictureBox_AlarmU_Power) ? ((pierceStat.Alarms.Value & (1 << 2)) != 0 ? Color.Red : Color.Green) : color;
                 e.Graphics.FillEllipse(new SolidBrush(color),
                 new Rectangle(0, 0, pictureBox_AlarmCurrentCh1.ClientSize.Width - 1, pictureBox_AlarmCurrentCh1.ClientSize.Height - 1));
             }
@@ -873,6 +944,11 @@ namespace PierceStat
             {
                 pierceStat.ChannelOn[0].Value = (button_EnableCh1.Text == "Enable") ? true : false;
                 button_EnableCh1.Text = (button_EnableCh1.Text == "Enable") ? "Disable" : "Enable";
+                if (modeDependent)
+                {
+                    pierceStat.ChannelOn[1].Value = pierceStat.ChannelOn[0].Value;
+                    button_EnableCh2.Text = button_EnableCh1.Text;
+                }
             }
         }
 
@@ -883,6 +959,11 @@ namespace PierceStat
             {
                 pierceStat.ChannelOn[1].Value = (button_EnableCh2.Text == "Enable") ? true : false;
                 button_EnableCh2.Text = (button_EnableCh2.Text == "Enable") ? "Disable" : "Enable";
+                if (modeDependent)
+                {
+                    pierceStat.ChannelOn[0].Value = pierceStat.ChannelOn[1].Value;
+                    button_EnableCh1.Text = button_EnableCh2.Text;
+                }
             }
         }
 
@@ -890,11 +971,11 @@ namespace PierceStat
         {
             if (radioButton_ModeDependent.Checked)
             {
-                groupBox_Channel2.Enabled = false;
+                modeDependent = true;
             }
             else
             {
-                groupBox_Channel2.Enabled = true;
+                modeDependent = false;
             }
             //Changed from GUI
             if (radioButton_ModeDependent.Focused)
@@ -988,6 +1069,11 @@ namespace PierceStat
             if (numericUpDown_SetPointTemp1.Focused)
             {
                 pierceStat.TempSet[0].Value = numericUpDown_SetPointTemp1.Value;
+                if (modeDependent)
+                {
+                    numericUpDown_SetPointTemp2.Value = numericUpDown_SetPointTemp1.Value;
+                    pierceStat.TempSet[1].Value = pierceStat.TempSet[0].Value;
+                }                
             }
         }
 
@@ -997,6 +1083,11 @@ namespace PierceStat
             if (numericUpDown_SetPointTemp2.Focused)
             {
                 pierceStat.TempSet[1].Value = numericUpDown_SetPointTemp2.Value;
+                if (modeDependent)
+                {
+                    numericUpDown_SetPointTemp1.Value = numericUpDown_SetPointTemp2.Value;
+                    pierceStat.TempSet[0].Value = pierceStat.TempSet[1].Value;
+                }
             }
         }
 
@@ -1237,9 +1328,9 @@ namespace PierceStat
         private void numericUpDown_FreqMin_ValueChanged(object sender, EventArgs e)
         {
             //Changed from GUI
-            if (numericUpDown_FreqMax.Focused)
+            if (numericUpDown_FreqMin.Focused)
             {
-
+                pierceStat.FreqMin.Value = numericUpDown_FreqMin.Value;
             }
         }
 
@@ -1279,20 +1370,235 @@ namespace PierceStat
             string delim = "\t";
             System.IO.StreamWriter file
                 = new System.IO.StreamWriter(AppDomain.CurrentDomain.BaseDirectory + $"PierceStatData_{DateTime.Now.ToString("M_d_yyyy__hh_mm_ss")}.dat");
-            file.WriteLine("Time,s" + delim + "Temp1,C" + delim + "Temp2,C" + delim + "Temp3,C" + delim + "Temp4,C" + delim + "Freq, Hz" + delim + "Deriv, Hz/s");
+            file.WriteLine("Time,s" + delim + "Temp1,C" + delim + "Temp2,C" + delim + "Temp3,C" + delim + "Temp4,C" + delim + "Temp(f),C" + delim + "Freq, Hz" + delim + "Deriv, Hz/s");
             for(int i = 0; i < time.Count; i++)
             {
                 file.WriteLine($"{time[i]}{delim}{temperature[0][i]}{delim}{temperature[1][i]}{delim}{temperature[2][i]}{delim}{temperature[3][i]}{delim}" +
+                    $"{temperature[4][i]}{delim}" + 
                     $"{frequency[i]}{delim}{derivative[i]}");
             }
 
             file.Close();
         }
 
-        private void button_CalibrateKprt_Click(object sender, EventArgs e)
+        private async void button_CalibrateKprt_Click(object sender, EventArgs e)
         {
-            Random rand = new Random();
-            alarmColor = Color.FromArgb(rand.Next(255), rand.Next(255), rand.Next(255));
+            if (button_CalibrateKprt.Text == "Calibrate")
+            {
+                button_CalibrateKprt.Text = "Stop";
+                Decimal tStart = numericUpDown_TstartKprt.Value;
+                Decimal tStop = numericUpDown_TstopKprt.Value;
+                Decimal numberOfPoints = numericUpDown_NumPointsKprt.Value;
+                List<Decimal> tempList = new List<Decimal>();
+                List<Decimal> freqList = new List<Decimal>();
+                for (int i = 0; i < numberOfPoints; i++)
+                {
+                    ResetPlot();
+                    tempList.Add(i * (tStop - tStart) / (numberOfPoints - 1) + tStart);
+                    Console.WriteLine(tempList.Last());
+                    pierceStat.TempSet[0].Value = tempList.Last();
+                    pierceStat.TempSet[1].Value = tempList.Last();
+                    pierceStat.ChannelOn[0].Value = true;
+                    pierceStat.ChannelOn[1].Value = true;
+                    await WaitForSteadyCondition();
+                    if (button_CalibrateKprt.Text == "Calibrate")
+                        return;
+                    freqList.Add(pierceStat.FreqMeas.Value);
+                    dataGridView_Data.Rows.Add(pierceStat.TempMeas[0].Value, pierceStat.TempMeas[1].Value, temperature[4].Last(), pierceStat.FreqMeas.Value, "");
+                }
+
+                (kprt, offset) = Math.LeastSquared(tempList, freqList);
+                numericUpDown_KprtValue.Value = kprt;
+                numericUpDown_freqOffset.Value = offset;
+                button_CalibrateKprt.Text = "Calibrate";
+                ResetPlot();
+                checkBox_PlotTempFreq.Checked = true;
+            }
+            else
+            {
+                pierceStat.ChannelOn[0].Value = false;
+                pierceStat.ChannelOn[1].Value = false;
+                button_CalibrateKprt.Text = "Calibrate";
+            }
+            
+        }
+
+        async Task WaitForSteadyCondition()
+        {
+            bool steady = false;
+            while (!steady)
+            {
+                if (button_CalibrateKprt.Text == "Calibrate")
+                    break;
+                int avaliablePoints = frequency.Count;
+                int amount = (int) (awaitTime / timer1.Interval * 1000M);
+                if (avaliablePoints > amount)
+                {
+                    List<decimal> freq = frequency.GetRange(avaliablePoints - amount - 1, amount);
+                    if (freq.Max() - freq.Min() < deltaF)
+                    {
+                        steady = true;
+                    }
+                }
+                await Task.Delay(1000);
+            }
+        }
+
+        private void numericUpDown_FreqMax_ValueChanged(object sender, EventArgs e)
+        {
+            //Changed from GUI
+            if (numericUpDown_FreqMax.Focused)
+            {
+                pierceStat.FreqMax.Value = numericUpDown_FreqMax.Value;
+            }
+        }
+
+        private void checkBox_AlarmCurrentCh1Masked_CheckedChanged(object sender, EventArgs e)
+        {
+            //Changed from GUI
+            if (checkBox_AlarmCurrentCh1Masked.Focused)
+            {
+                int bitValue = checkBox_AlarmCurrentCh1Masked.Checked ? 0 : 1;
+                int bitPosition = 0;
+                pierceStat.AlarmMasks.Value = (pierceStat.AlarmMasks.Value & ~(1 << bitPosition)) | (bitValue << bitPosition);
+            }
+        }
+
+        private void checkBox_AlarmCurrentCh2Masked_CheckedChanged(object sender, EventArgs e)
+        {
+            //Changed from GUI
+            if (checkBox_AlarmCurrentCh2Masked.Focused)
+            {
+                int bitValue = checkBox_AlarmCurrentCh2Masked.Checked ? 0 : 1;
+                int bitPosition = 1;
+                pierceStat.AlarmMasks.Value = (pierceStat.AlarmMasks.Value & ~(1 << bitPosition)) | (bitValue << bitPosition);
+            }
+        }
+
+        private void checkBox_AlarmU_PowerMasked_CheckedChanged(object sender, EventArgs e)
+        {
+            //Changed from GUI
+            if (checkBox_AlarmU_PowerMasked.Focused)
+            {
+                int bitValue = checkBox_AlarmU_PowerMasked.Checked ? 0 : 1;
+                int bitPosition = 2;
+                pierceStat.AlarmMasks.Value = (pierceStat.AlarmMasks.Value & ~(1 << bitPosition)) | (bitValue << bitPosition);
+            }
+        }
+
+        private void checkBox_AlarmU_HeaterMasked_CheckedChanged(object sender, EventArgs e)
+        {
+            //Changed from GUI
+            if (checkBox_AlarmU_HeaterMasked.Focused)
+            {
+                int bitValue = checkBox_AlarmU_HeaterMasked.Checked ? 0 : 1;
+                int bitPosition = 3;
+                pierceStat.AlarmMasks.Value = (pierceStat.AlarmMasks.Value & ~(1 << bitPosition)) | (bitValue << bitPosition);
+            }
+        }
+
+        private void checkBox_AlarmTemp1Masked_CheckedChanged(object sender, EventArgs e)
+        {
+            //Changed from GUI
+            if (checkBox_AlarmTemp1Masked.Focused)
+            {
+                int bitValue = checkBox_AlarmTemp1Masked.Checked ? 0 : 1;
+                int bitPosition = 4;
+                pierceStat.AlarmMasks.Value = (pierceStat.AlarmMasks.Value & ~(1 << bitPosition)) | (bitValue << bitPosition);
+            }
+        }
+
+        private void checkBox_AlarmTemp2Masked_CheckedChanged(object sender, EventArgs e)
+        {
+            //Changed from GUI
+            if (checkBox_AlarmTemp2Masked.Focused)
+            {
+                int bitValue = checkBox_AlarmTemp2Masked.Checked ? 0 : 1;
+                int bitPosition = 5;
+                pierceStat.AlarmMasks.Value = (pierceStat.AlarmMasks.Value & ~(1 << bitPosition)) | (bitValue << bitPosition);
+            }
+        }
+
+        private void checkBox_AlarmTemp3Masked_CheckedChanged(object sender, EventArgs e)
+        {
+            //Changed from GUI
+            if (checkBox_AlarmTemp3Masked.Focused)
+            {
+                int bitValue = checkBox_AlarmTemp3Masked.Checked ? 0 : 1;
+                int bitPosition = 6;
+                pierceStat.AlarmMasks.Value = (pierceStat.AlarmMasks.Value & ~(1 << bitPosition)) | (bitValue << bitPosition);
+            }
+        }
+
+        private void checkBox_AlarmTemp4Masked_CheckedChanged(object sender, EventArgs e)
+        {
+            //Changed from GUI
+            if (checkBox_AlarmTemp4Masked.Focused)
+            {
+                int bitValue = checkBox_AlarmTemp4Masked.Checked ? 0 : 1;
+                int bitPosition = 7;
+                pierceStat.AlarmMasks.Value = (pierceStat.AlarmMasks.Value & ~(1 << bitPosition)) | (bitValue << bitPosition);
+            }
+        }
+
+        private void checkBox_AlarmFreqMasked_CheckedChanged(object sender, EventArgs e)
+        {
+            //Changed from GUI
+            if (checkBox_AlarmFreqMasked.Focused)
+            {
+                int bitValue = checkBox_AlarmFreqMasked.Checked ? 0 : 1;
+                int bitPosition = 8;
+                pierceStat.AlarmMasks.Value = (pierceStat.AlarmMasks.Value & ~(1 << bitPosition)) | (bitValue << bitPosition);
+            }
+        }
+
+        private void numericUpDown_KprtValue_ValueChanged(object sender, EventArgs e)
+        {
+            kprt = numericUpDown_KprtValue.Value;
+        }
+
+        private void numericUpDown_freqOffset_ValueChanged(object sender, EventArgs e)
+        {
+            offset = numericUpDown_freqOffset.Value;
+        }
+
+        private void numericUpDown_FilterBand_ValueChanged(object sender, EventArgs e)
+        {
+            bandwidth = numericUpDown_FilterBand.Value;
+        }
+
+        private void numericUpDown_DeltaF_ValueChanged(object sender, EventArgs e)
+        {
+            deltaF = numericUpDown_DeltaF.Value;
+        }
+
+        private void numericUpDown_AwaitTime_ValueChanged(object sender, EventArgs e)
+        {
+            awaitTime = numericUpDown_AwaitTime.Value;
+        }
+
+        private void button_AddData_Click(object sender, EventArgs e)
+        {
+            dataGridView_Data.Rows.Add(pierceStat.TempMeas[0].Value, pierceStat.TempMeas[1].Value, temperature[4].Last(), pierceStat.FreqMeas.Value, "");
+        }
+
+        private void button_ClearTable_Click(object sender, EventArgs e)
+        {
+            dataGridView_Data.Rows.Clear();
+        }
+
+        private void button_SaveTable_Click(object sender, EventArgs e)
+        {
+            string delim = "\t";
+            System.IO.StreamWriter file
+                = new System.IO.StreamWriter(AppDomain.CurrentDomain.BaseDirectory + $"Table_PierceStatData_{DateTime.Now.ToString("M_d_yyyy__hh_mm_ss")}.dat");
+            file.WriteLine("Temp1,C" + delim + "Temp2,C" + delim + "Temp(f),C" + delim + "Freq, Hz" + delim + "Power, W");
+            foreach (DataGridViewRow row in dataGridView_Data.Rows)
+            {
+                file.WriteLine($"{row.Cells[0].Value}{delim}{row.Cells[1].Value}{delim}{row.Cells[2].Value}{delim}{row.Cells[3].Value}{delim}{row.Cells[4].Value}");
+            }
+
+            file.Close();
         }
     }    
 }
